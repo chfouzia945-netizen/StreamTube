@@ -27,19 +27,10 @@ content="width=device-width,initial-scale=1"
   </a>
 
   <nav>
-
-
-<a href="/">Home</a>
-
-<a href="studio.html">Studio</a>
-
-<a href="upload.html">Upload</a>
-
-<a href="#" onclick="logout();return false;">
-  Logout
-</a>
-
-
+    <a href="/">Home</a>
+    <a href="studio.html">Studio</a>
+    <a href="upload.html">Upload</a>
+    <a href="#" onclick="logout();return false;">Logout</a>
   </nav>
 
 </header>
@@ -50,7 +41,7 @@ content="width=device-width,initial-scale=1"
 
   <section class="admin-header">
 
-
+```
 <div>
 
   <span class="pill">
@@ -66,27 +57,22 @@ content="width=device-width,initial-scale=1"
   </p>
 
 </div>
-
+```
 
   </section>
 
   <!-- STATISTICS -->
 
-  <section
-    id="stats"
-    class="stats-grid"
-  >
+  <section id="stats" class="stats-grid">
 
-
+```
 <div class="stat-card">
 
   <span class="stat-label">
     Total Users
   </span>
 
-  <strong id="usersCount">
-    
-  </strong>
+  <strong id="usersCount">—</strong>
 
 </div>
 
@@ -97,9 +83,7 @@ content="width=device-width,initial-scale=1"
     Total Videos
   </span>
 
-  <strong id="videosCount">
-    
-  </strong>
+  <strong id="videosCount">—</strong>
 
 </div>
 
@@ -110,9 +94,7 @@ content="width=device-width,initial-scale=1"
     Total Views
   </span>
 
-  <strong id="viewsCount">
-    
-  </strong>
+  <strong id="viewsCount">—</strong>
 
 </div>
 
@@ -123,9 +105,7 @@ content="width=device-width,initial-scale=1"
     Total Comments
   </span>
 
-  <strong id="commentsCount">
-    
-  </strong>
+  <strong id="commentsCount">—</strong>
 
 </div>
 
@@ -136,9 +116,7 @@ content="width=device-width,initial-scale=1"
     Pending Withdrawals
   </span>
 
-  <strong id="withdrawalsCount">
-    
-  </strong>
+  <strong id="withdrawalsCount">—</strong>
 
 </div>
 
@@ -149,12 +127,10 @@ content="width=device-width,initial-scale=1"
     Ad Revenue
   </span>
 
-  <strong id="adRevenue">
-    $0.00
-  </strong>
+  <strong id="adRevenue">$0.00</strong>
 
 </div>
-
+```
 
   </section>
 
@@ -162,7 +138,7 @@ content="width=device-width,initial-scale=1"
 
   <section class="admin-card section-full">
 
-
+```
 <div class="section-head">
 
   <div>
@@ -172,12 +148,11 @@ content="width=device-width,initial-scale=1"
     </h2>
 
     <div class="card-subtitle">
-
       View registered users, account roles and uploaded videos.
-
     </div>
 
   </div>
+
 
   <button
     class="btn"
@@ -192,13 +167,11 @@ content="width=device-width,initial-scale=1"
 <div id="users">
 
   <div class="empty-state">
-
     Loading users...
-
   </div>
 
 </div>
-
+```
 
   </section>
 
@@ -206,7 +179,7 @@ content="width=device-width,initial-scale=1"
 
   <div class="admin-grid">
 
-
+```
 <!-- WITHDRAWAL REQUESTS -->
 
 <section class="admin-card">
@@ -220,9 +193,7 @@ content="width=device-width,initial-scale=1"
       </h2>
 
       <div class="card-subtitle">
-
         Review creator withdrawal requests.
-
       </div>
 
     </div>
@@ -233,9 +204,7 @@ content="width=device-width,initial-scale=1"
   <div id="withdrawals">
 
     <div class="empty-state">
-
       Loading withdrawals...
-
     </div>
 
   </div>
@@ -256,9 +225,7 @@ content="width=device-width,initial-scale=1"
       </h2>
 
       <div class="card-subtitle">
-
         Create and manage advertising campaigns.
-
       </div>
 
     </div>
@@ -358,15 +325,13 @@ content="width=device-width,initial-scale=1"
   >
 
     <div class="empty-state">
-
       Loading campaigns...
-
     </div>
 
   </div>
 
 </section>
-
+```
 
   </div>
 
@@ -374,7 +339,7 @@ content="width=device-width,initial-scale=1"
 
   <section class="admin-card section-full">
 
-
+```
 <div class="section-head">
 
   <div>
@@ -384,9 +349,7 @@ content="width=device-width,initial-scale=1"
     </h2>
 
     <div class="card-subtitle">
-
       Advertising campaign performance.
-
     </div>
 
   </div>
@@ -397,13 +360,11 @@ content="width=device-width,initial-scale=1"
 <div id="campaignOverview">
 
   <div class="empty-state">
-
     Campaign data will appear here.
-
   </div>
 
 </div>
-
+```
 
   </section>
 
@@ -494,9 +455,7 @@ async function load(){
             </h2>
 
             <p class="muted">
-
               Please login with an administrator account.
-
             </p>
 
             <a
@@ -531,12 +490,9 @@ async function load(){
 
     renderStats(s);
 
-
     await loadUsers();
 
-
     await loadWithdrawals();
-
 
     await loadAds();
 
@@ -544,7 +500,6 @@ async function load(){
   }catch(error){
 
     console.error(error);
-
 
     document.getElementById("stats").innerHTML = `
 
@@ -558,9 +513,7 @@ async function load(){
         </strong>
 
         <p class="muted">
-
           Please refresh the page and try again.
-
         </p>
 
       </div>
@@ -634,9 +587,7 @@ async function loadUsers(){
 
 
     if(r.status === 401 || r.status === 403){
-
       return;
-
     }
 
 
@@ -661,9 +612,7 @@ async function loadUsers(){
       box.innerHTML = `
 
         <div class="empty-state">
-
           No users found.
-
         </div>
 
       `;
@@ -738,13 +687,10 @@ async function loadUsers(){
 
     console.error(error);
 
-
     document.getElementById("users").innerHTML = `
 
       <div class="empty-state">
-
         Users could not be loaded.
-
       </div>
 
     `;
@@ -783,9 +729,7 @@ async function loadWithdrawals(){
 
 
     const box =
-      document.getElementById(
-        "withdrawals"
-      );
+      document.getElementById("withdrawals");
 
 
     if(!data.length){
@@ -793,9 +737,7 @@ async function loadWithdrawals(){
       box.innerHTML = `
 
         <div class="empty-state">
-
           No withdrawal requests.
-
         </div>
 
       `;
@@ -812,11 +754,9 @@ async function loadWithdrawals(){
         <div class="admin-row-info">
 
           <strong>
-
             ${escapeHtml(
               w.user || "Unknown"
             )}
-
           </strong>
 
 
@@ -884,15 +824,12 @@ async function loadWithdrawals(){
 
     console.error(error);
 
-
     document.getElementById(
       "withdrawals"
     ).innerHTML = `
 
       <div class="empty-state">
-
         Withdrawals could not be loaded.
-
       </div>
 
     `;
@@ -941,7 +878,6 @@ async function updateWithdrawal(
 
   await load();
 
-
 }
 
 
@@ -970,9 +906,7 @@ async function loadAds(){
       box.innerHTML = `
 
         <div class="empty-state">
-
           No campaign data available.
-
         </div>
 
       `;
@@ -990,9 +924,7 @@ async function loadAds(){
       box.innerHTML = `
 
         <div class="empty-state">
-
           No ad campaigns yet.
-
         </div>
 
       `;
@@ -1108,15 +1040,12 @@ async function loadAds(){
 
     console.error(error);
 
-
     document.getElementById(
       "ads"
     ).innerHTML = `
 
       <div class="empty-state">
-
         Campaigns could not be loaded.
-
       </div>
 
     `;
