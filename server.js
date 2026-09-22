@@ -329,7 +329,6 @@ app.post('/api/admin/ads/:id/status',auth,admin,async (req,res)=>{
   const status=['active','paused'].includes(req.body.status)?req.body.status:a.status; a.status=status; save(d); res.json(a);
 });
 
-c
 app.post("/api/admin/withdrawals/:id",auth,admin,async (req,res)=>{
   const d=await db(),w=d.withdrawals.find(x=>x.id===req.params.id);
   if(!w)return res.status(404).json({error:"Not found"});
