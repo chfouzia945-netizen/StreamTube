@@ -1,4 +1,3 @@
-
 <!doctype html>
 
 <html lang="en">
@@ -8,8 +7,9 @@
 <meta charset="utf-8">
 
 <meta
-  name="viewport"
-  content="width=device-width,initial-scale=1"
+name="viewport"
+content="width=device-width,initial-scale=1"
+
 >
 
 <title>Admin Dashboard — StreamTube</title>
@@ -37,7 +37,9 @@
 }
 
 .admin-header .pill{
-  display:inline-block;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
   margin-bottom:10px;
 }
 
@@ -45,7 +47,7 @@
   margin:0 0 8px;
   font-size:36px;
   line-height:1.2;
-  letter-spacing:-0.5px;
+  letter-spacing:-0.6px;
 }
 
 .admin-header p{
@@ -65,27 +67,58 @@
 }
 
 .stat-card{
+  position:relative;
+  overflow:hidden;
   background:var(--panel);
   border:1px solid var(--line);
-  border-radius:14px;
-  padding:22px;
-  min-height:115px;
+  border-radius:16px;
+  padding:20px;
+  min-height:125px;
   display:flex;
-  flex-direction:column;
+  align-items:center;
+  gap:15px;
+  transition:
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
+}
+
+.stat-card:hover{
+  transform:translateY(-2px);
+  border-color:#3d4650;
+  box-shadow:0 10px 28px rgba(0,0,0,.18);
+}
+
+.stat-icon{
+  width:48px;
+  height:48px;
+  flex:0 0 48px;
+  display:flex;
+  align-items:center;
   justify-content:center;
+  border-radius:12px;
+  background:#171c21;
+  border:1px solid #303740;
+  font-size:22px;
+}
+
+.stat-content{
+  min-width:0;
 }
 
 .stat-label{
   display:block;
   color:var(--muted);
-  font-size:13px;
-  font-weight:600;
-  margin-bottom:10px;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:8px;
+  text-transform:uppercase;
+  letter-spacing:.35px;
 }
 
 .stat-card strong{
   display:block;
-  font-size:28px;
+  font-size:27px;
   line-height:1;
   font-weight:800;
 }
@@ -97,7 +130,7 @@
 .admin-card{
   background:var(--panel);
   border:1px solid var(--line);
-  border-radius:14px;
+  border-radius:16px;
   padding:24px;
   margin-bottom:20px;
 }
@@ -142,6 +175,33 @@
 }
 
 /* =========================
+   SEARCH
+========================= */
+
+.admin-search{
+  width:100%;
+  min-height:43px;
+  padding:10px 13px;
+  background:#0e1216;
+  color:#fff;
+  border:1px solid #303740;
+  border-radius:9px;
+  outline:none;
+  font-size:13px;
+  margin-bottom:5px;
+  transition:border-color .15s ease,background .15s ease;
+}
+
+.admin-search::placeholder{
+  color:#68727d;
+}
+
+.admin-search:focus{
+  border-color:#59636e;
+  background:#10151a;
+}
+
+/* =========================
    BUTTONS
 ========================= */
 
@@ -179,7 +239,10 @@
 }
 
 .admin-row-info strong{
-  display:block;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
   font-size:15px;
   line-height:1.4;
   font-weight:700;
@@ -200,12 +263,43 @@
 }
 
 /* =========================
+   USER AVATAR
+========================= */
+
+.user-main{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-width:0;
+}
+
+.user-avatar{
+  width:44px;
+  height:44px;
+  flex:0 0 44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#1d242b;
+  border:1px solid #3a434d;
+  color:#fff;
+  font-size:15px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.user-details{
+  min-width:0;
+}
+
+/* =========================
    USER ROLE
 ========================= */
 
 .user-role{
-  display:inline-block;
-  margin-left:7px;
+  display:inline-flex;
+  align-items:center;
   padding:4px 8px;
   border-radius:20px;
   font-size:10px;
@@ -223,6 +317,119 @@
 .user-creator{
   background:#182d3d;
   color:#65b9ff;
+}
+
+/* =========================
+   VIDEO THUMBNAIL
+========================= */
+
+.video-mini{
+  width:52px;
+  height:38px;
+  flex:0 0 52px;
+  border-radius:7px;
+  background:#151a1f;
+  border:1px solid #303740;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+}
+
+/* =========================
+   STATUS BADGES
+========================= */
+
+.status-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+.status-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+}
+
+.status-pending{
+  background:#302b18;
+  color:#e7c766;
+}
+
+.status-paid{
+  background:#183522;
+  color:#71d98b;
+}
+
+.status-rejected{
+  background:#3b1d1d;
+  color:#ff7777;
+}
+
+/* =========================
+   CAMPAIGN STATUS
+========================= */
+
+.campaign-status{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+.campaign-active{
+  background:#183522;
+  color:#71d98b;
+}
+
+.campaign-paused{
+  background:#302b18;
+  color:#e7c766;
+}
+
+.campaign-draft{
+  background:#252b33;
+  color:#aeb6bf;
+}
+
+.campaign-rejected{
+  background:#3b1d1d;
+  color:#ff7777;
+}
+
+.campaign-title{
+  font-weight:700;
+}
+
+/* =========================
+   CAMPAIGN DETAILS
+========================= */
+
+.campaign-details{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 14px;
+  margin-top:7px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.campaign-details span{
+  white-space:nowrap;
 }
 
 /* =========================
@@ -298,56 +505,33 @@
   margin-top:4px;
 }
 
-.campaign-title{
-  font-weight:700;
-}
-
-.campaign-status{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.4px;
-}
-
-.campaign-active{
-  background:#183522;
-  color:#71d98b;
-}
-
-.campaign-paused{
-  background:#302b18;
-  color:#e7c766;
-}
-
-.campaign-draft{
-  background:#252b33;
-  color:#aeb6bf;
-}
-
-.campaign-rejected{
-  background:#3b1d1d;
-  color:#ff7777;
-}
-
 /* =========================
-   CAMPAIGN DETAILS
+   OVERVIEW BOX
 ========================= */
 
-.campaign-details{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px 14px;
-  margin-top:6px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.5;
+.overview-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:15px;
 }
 
-.campaign-details span{
-  white-space:nowrap;
+.overview-item{
+  padding:13px;
+  background:#0e1216;
+  border:1px solid #303740;
+  border-radius:9px;
+}
+
+.overview-item small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:5px;
+}
+
+.overview-item strong{
+  font-size:17px;
 }
 
 /* =========================
@@ -382,16 +566,24 @@
   }
 
   .stat-card{
-    padding:17px;
+    padding:15px;
     min-height:100px;
+    gap:10px;
+  }
+
+  .stat-icon{
+    width:40px;
+    height:40px;
+    flex-basis:40px;
+    font-size:18px;
   }
 
   .stat-card strong{
-    font-size:23px;
+    font-size:21px;
   }
 
   .stat-label{
-    font-size:12px;
+    font-size:10px;
   }
 
   .admin-card{
@@ -434,15 +626,17 @@
     gap:3px;
   }
 
+  .overview-summary{
+    grid-template-columns:1fr;
+  }
+
 }
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <!-- =====================================================
      HEADER
@@ -456,29 +650,30 @@
 
   <nav>
 
-    <a href="/">
-      Home
-    </a>
+```
+<a href="/">
+  Home
+</a>
 
-    <a href="studio.html">
-      Studio
-    </a>
+<a href="studio.html">
+  Studio
+</a>
 
-    <a href="upload.html">
-      Upload
-    </a>
+<a href="upload.html">
+  Upload
+</a>
 
-    <a
-      href="#"
-      onclick="logout();return false;"
-    >
-      Logout
-    </a>
+<a
+  href="#"
+  onclick="logout();return false;"
+>
+  Logout
+</a>
+```
 
   </nav>
 
 </header>
-
 
 <!-- =====================================================
      MAIN ADMIN PAGE
@@ -486,25 +681,25 @@
 
 <main class="admin-page">
 
-
   <!-- PAGE HEADER -->
 
   <section class="admin-header">
 
-    <span class="pill">
-      ADMIN PANEL
-    </span>
+```
+<span class="pill">
+  🛡️ ADMIN PANEL
+</span>
 
-    <h1>
-      StreamTube Admin Dashboard
-    </h1>
+<h1>
+  StreamTube Admin Dashboard
+</h1>
 
-    <p class="muted">
-      Manage users, videos, withdrawals and advertising from one place.
-    </p>
+<p class="muted">
+  Manage users, videos, withdrawals and advertising from one place.
+</p>
+```
 
   </section>
-
 
   <!-- =================================================
        STATISTICS
@@ -515,87 +710,134 @@
     class="stats-grid"
   >
 
+```
+<div class="stat-card">
 
-    <div class="stat-card">
+  <div class="stat-icon">
+    👥
+  </div>
 
-      <span class="stat-label">
-        Total Users
-      </span>
+  <div class="stat-content">
 
-      <strong id="usersCount">
-        —
-      </strong>
+    <span class="stat-label">
+      Total Users
+    </span>
 
-    </div>
+    <strong id="usersCount">
+      —
+    </strong>
 
+  </div>
 
-    <div class="stat-card">
-
-      <span class="stat-label">
-        Total Videos
-      </span>
-
-      <strong id="videosCount">
-        —
-      </strong>
-
-    </div>
+</div>
 
 
-    <div class="stat-card">
+<div class="stat-card">
 
-      <span class="stat-label">
-        Total Views
-      </span>
+  <div class="stat-icon">
+    🎬
+  </div>
 
-      <strong id="viewsCount">
-        —
-      </strong>
+  <div class="stat-content">
 
-    </div>
+    <span class="stat-label">
+      Total Videos
+    </span>
 
+    <strong id="videosCount">
+      —
+    </strong>
 
-    <div class="stat-card">
+  </div>
 
-      <span class="stat-label">
-        Total Comments
-      </span>
-
-      <strong id="commentsCount">
-        —
-      </strong>
-
-    </div>
+</div>
 
 
-    <div class="stat-card">
+<div class="stat-card">
 
-      <span class="stat-label">
-        Pending Withdrawals
-      </span>
+  <div class="stat-icon">
+    👁️
+  </div>
 
-      <strong id="withdrawalsCount">
-        —
-      </strong>
+  <div class="stat-content">
 
-    </div>
+    <span class="stat-label">
+      Total Views
+    </span>
+
+    <strong id="viewsCount">
+      —
+    </strong>
+
+  </div>
+
+</div>
 
 
-    <div class="stat-card">
+<div class="stat-card">
 
-      <span class="stat-label">
-        Ad Revenue
-      </span>
+  <div class="stat-icon">
+    💬
+  </div>
 
-      <strong id="adRevenue">
-        $0.00
-      </strong>
+  <div class="stat-content">
 
-    </div>
+    <span class="stat-label">
+      Total Comments
+    </span>
 
+    <strong id="commentsCount">
+      —
+    </strong>
+
+  </div>
+
+</div>
+
+
+<div class="stat-card">
+
+  <div class="stat-icon">
+    💳
+  </div>
+
+  <div class="stat-content">
+
+    <span class="stat-label">
+      Pending Withdrawals
+    </span>
+
+    <strong id="withdrawalsCount">
+      —
+    </strong>
+
+  </div>
+
+</div>
+
+
+<div class="stat-card">
+
+  <div class="stat-icon">
+    💰
+  </div>
+
+  <div class="stat-content">
+
+    <span class="stat-label">
+      Ad Revenue
+    </span>
+
+    <strong id="adRevenue">
+      $0.00
+    </strong>
+
+  </div>
+
+</div>
+```
 
   </section>
-
 
   <!-- =================================================
        USERS MANAGEMENT
@@ -603,43 +845,51 @@
 
   <section class="admin-card section-full">
 
+```
+<div class="section-head">
 
-    <div class="section-head">
+  <div>
 
-      <div>
+    <h2>
+      👥 Users Management
+    </h2>
 
-        <h2>
-          Users Management
-        </h2>
-
-        <div class="card-subtitle">
-          View registered users, account roles and uploaded videos.
-        </div>
-
-      </div>
-
-
-      <button
-        class="btn"
-        onclick="loadUsers()"
-      >
-        Refresh Users
-      </button>
-
+    <div class="card-subtitle">
+      View registered users, account roles and uploaded videos.
     </div>
 
+  </div>
 
-    <div id="users">
 
-      <div class="empty-state">
-        Loading users...
-      </div>
+  <button
+    class="btn"
+    onclick="loadUsers()"
+  >
+    ↻ Refresh Users
+  </button>
 
-    </div>
+</div>
 
+
+<input
+  id="userSearch"
+  class="admin-search"
+  type="search"
+  placeholder="Search users by username or email..."
+  oninput="filterUsers()"
+>
+
+
+<div id="users">
+
+  <div class="empty-state">
+    Loading users...
+  </div>
+
+</div>
+```
 
   </section>
-
 
   <!-- =================================================
        WITHDRAWALS + AD CAMPAIGNS
@@ -647,197 +897,196 @@
 
   <div class="admin-grid">
 
+```
+<!-- WITHDRAWAL REQUESTS -->
 
-    <!-- WITHDRAWAL REQUESTS -->
-
-    <section class="admin-card">
+<section class="admin-card">
 
 
-      <div class="section-head">
+  <div class="section-head">
 
-        <div>
+    <div>
 
-          <h2>
-            Withdrawal Requests
-          </h2>
+      <h2>
+        💳 Withdrawal Requests
+      </h2>
 
-          <div class="card-subtitle">
-            Review creator withdrawal requests and payment status.
-          </div>
-
-        </div>
-
+      <div class="card-subtitle">
+        Review creator withdrawal requests and payment status.
       </div>
 
-
-      <div id="withdrawals">
-
-        <div class="empty-state">
-          Loading withdrawals...
-        </div>
-
-      </div>
-
-
-    </section>
-
-
-    <!-- AD CAMPAIGNS -->
-
-    <section class="admin-card">
-
-
-      <div class="section-head">
-
-        <div>
-
-          <h2>
-            Ad Campaigns
-          </h2>
-
-          <div class="card-subtitle">
-            Create and manage advertising campaigns.
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- AD FORM -->
-
-      <form
-        id="adForm"
-        onsubmit="createAd(event)"
-      >
-
-
-        <div>
-
-          <label>
-            Campaign Name
-          </label>
-
-          <input
-            id="adTitle"
-            placeholder="e.g. Summer Promotion"
-            required
-          >
-
-        </div>
-
-
-        <div>
-
-          <label>
-            Creative URL
-          </label>
-
-          <input
-            id="creativeUrl"
-            placeholder="https://example.com/banner.jpg"
-            required
-          >
-
-        </div>
-
-
-        <div>
-
-          <label>
-            Target URL
-          </label>
-
-          <input
-            id="targetUrl"
-            placeholder="https://example.com"
-            required
-          >
-
-        </div>
-
-
-        <div>
-
-          <label>
-            Total Budget (USD)
-          </label>
-
-          <input
-            id="adBudget"
-            type="number"
-            min="1"
-            step="0.01"
-            placeholder="100"
-            required
-          >
-
-        </div>
-
-
-        <div>
-
-          <label>
-            Creator CPM (USD)
-          </label>
-
-          <input
-            id="creatorCpm"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="2"
-            required
-          >
-
-        </div>
-
-
-        <div>
-
-          <label>
-            Platform CPM (USD)
-          </label>
-
-          <input
-            id="platformCpm"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="1"
-            required
-          >
-
-        </div>
-
-
-        <button
-          class="btn wide"
-          type="submit"
-        >
-          Create Campaign
-        </button>
-
-
-      </form>
-
-
-      <!-- CAMPAIGN LIST -->
-
-      <div id="ads">
-
-        <div class="empty-state">
-          Loading campaigns...
-        </div>
-
-      </div>
-
-
-    </section>
-
+    </div>
 
   </div>
 
+
+  <div id="withdrawals">
+
+    <div class="empty-state">
+      Loading withdrawals...
+    </div>
+
+  </div>
+
+
+</section>
+
+
+<!-- AD CAMPAIGNS -->
+
+<section class="admin-card">
+
+
+  <div class="section-head">
+
+    <div>
+
+      <h2>
+        📢 Ad Campaigns
+      </h2>
+
+      <div class="card-subtitle">
+        Create and manage advertising campaigns.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- AD FORM -->
+
+  <form
+    id="adForm"
+    onsubmit="createAd(event)"
+  >
+
+
+    <div>
+
+      <label>
+        Campaign Name
+      </label>
+
+      <input
+        id="adTitle"
+        placeholder="e.g. Summer Promotion"
+        required
+      >
+
+    </div>
+
+
+    <div>
+
+      <label>
+        Creative URL
+      </label>
+
+      <input
+        id="creativeUrl"
+        placeholder="https://example.com/banner.jpg"
+        required
+      >
+
+    </div>
+
+
+    <div>
+
+      <label>
+        Target URL
+      </label>
+
+      <input
+        id="targetUrl"
+        placeholder="https://example.com"
+        required
+      >
+
+    </div>
+
+
+    <div>
+
+      <label>
+        Total Budget (USD)
+      </label>
+
+      <input
+        id="adBudget"
+        type="number"
+        min="1"
+        step="0.01"
+        placeholder="100"
+        required
+      >
+
+    </div>
+
+
+    <div>
+
+      <label>
+        Creator CPM (USD)
+      </label>
+
+      <input
+        id="creatorCpm"
+        type="number"
+        min="0"
+        step="0.01"
+        placeholder="2"
+        required
+      >
+
+    </div>
+
+
+    <div>
+
+      <label>
+        Platform CPM (USD)
+      </label>
+
+      <input
+        id="platformCpm"
+        type="number"
+        min="0"
+        step="0.01"
+        placeholder="1"
+        required
+      >
+
+    </div>
+
+
+    <button
+      class="btn wide"
+      type="submit"
+    >
+      + Create Campaign
+    </button>
+
+
+  </form>
+
+
+  <!-- CAMPAIGN LIST -->
+
+  <div id="ads">
+
+    <div class="empty-state">
+      Loading campaigns...
+    </div>
+
+  </div>
+
+
+</section>
+```
+
+  </div>
 
   <!-- =================================================
        CAMPAIGN OVERVIEW
@@ -845,38 +1094,36 @@
 
   <section class="admin-card section-full">
 
+```
+<div class="section-head">
 
-    <div class="section-head">
+  <div>
 
-      <div>
+    <h2>
+      📊 Campaign Overview
+    </h2>
 
-        <h2>
-          Campaign Overview
-        </h2>
-
-        <div class="card-subtitle">
-          Advertising campaign performance and budget information.
-        </div>
-
-      </div>
-
+    <div class="card-subtitle">
+      Advertising campaign performance and budget information.
     </div>
 
+  </div>
 
-    <div id="campaignOverview">
+</div>
 
-      <div class="empty-state">
-        Campaign data will appear here.
-      </div>
 
-    </div>
+<div id="campaignOverview">
 
+  <div class="empty-state">
+    Campaign data will appear here.
+  </div>
+
+</div>
+```
 
   </section>
 
-
 </main>
-
 
 <script>
 
@@ -886,6 +1133,11 @@
 
 const adminToken =
   localStorage.getItem("token") || "";
+
+
+/* Store users for search */
+
+let allUsers = [];
 
 
 function authHeaders(){
@@ -934,7 +1186,91 @@ function escapeHtml(value){
 
 
 /* =====================================================
-   STATUS BADGE
+   USER AVATAR
+===================================================== */
+
+function userInitial(username){
+
+  const name =
+    String(username || "U").trim();
+
+  if(!name){
+    return "U";
+  }
+
+  return name
+    .charAt(0)
+    .toUpperCase();
+
+}
+
+
+/* =====================================================
+   PLURAL HELPERS
+===================================================== */
+
+function pluralize(
+  number,
+  singular,
+  plural
+){
+
+  return Number(number) === 1
+    ? singular
+    : (plural || singular + "s");
+
+}
+
+
+/* =====================================================
+   WITHDRAWAL STATUS BADGE
+===================================================== */
+
+function withdrawalBadge(status){
+
+  const value =
+    String(status || "pending")
+      .toLowerCase();
+
+  let cls =
+    "status-pending";
+
+  if(
+    value === "paid" ||
+    value === "approved" ||
+    value === "completed"
+  ){
+
+    cls = "status-paid";
+
+  }
+
+  if(
+    value === "rejected" ||
+    value === "cancelled"
+  ){
+
+    cls = "status-rejected";
+
+  }
+
+  return `
+
+    <span class="status-badge ${cls}">
+
+      <span class="status-dot"></span>
+
+      ${escapeHtml(value)}
+
+    </span>
+
+  `;
+
+}
+
+
+/* =====================================================
+   CAMPAIGN STATUS BADGE
 ===================================================== */
 
 function statusBadge(status){
@@ -961,7 +1297,11 @@ function statusBadge(status){
   return `
 
     <span class="campaign-status ${cls}">
+
+      <span class="status-dot"></span>
+
       ${escapeHtml(value)}
+
     </span>
 
   `;
@@ -1149,6 +1489,192 @@ function renderStats(s){
 
 
 /* =====================================================
+   RENDER USERS
+===================================================== */
+
+function renderUsers(data){
+
+  const box =
+    document.getElementById(
+      "users"
+    );
+
+
+  if(!data.length){
+
+    box.innerHTML = `
+
+      <div class="empty-state">
+        No users found.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML =
+
+    data.map(x => {
+
+      const videoCount =
+        Number(x.videos || 0);
+
+      return `
+
+        <div class="admin-row">
+
+
+          <div class="admin-row-info">
+
+
+            <div class="user-main">
+
+
+              <div class="user-avatar">
+
+                ${escapeHtml(
+                  userInitial(
+                    x.username
+                  )
+                )}
+
+              </div>
+
+
+              <div class="user-details">
+
+
+                <strong>
+
+                  ${escapeHtml(
+                    x.username ||
+                    "Unknown User"
+                  )}
+
+                  <span
+                    class="user-role ${
+                      x.role === "admin"
+                        ? "user-admin"
+                        : "user-creator"
+                    }"
+                  >
+
+                    ${escapeHtml(
+                      x.role || "creator"
+                    )}
+
+                  </span>
+
+                </strong>
+
+
+                <div class="user-email">
+
+                  ${escapeHtml(
+                    x.email || "No email"
+                  )}
+
+                </div>
+
+
+                <div class="user-meta">
+
+                  ${videoCount.toLocaleString()}
+
+                  ${pluralize(
+                    videoCount,
+                    "video"
+                  )}
+
+                  &nbsp;•&nbsp;
+
+                  Joined
+
+                  ${
+                    x.createdAt
+                      ? new Date(
+                          x.createdAt
+                        ).toLocaleDateString()
+                      : "Unknown"
+                  }
+
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   FILTER USERS
+===================================================== */
+
+function filterUsers(){
+
+  const input =
+    document.getElementById(
+      "userSearch"
+    );
+
+  const query =
+    String(input.value || "")
+      .trim()
+      .toLowerCase();
+
+
+  if(!query){
+
+    renderUsers(allUsers);
+
+    return;
+
+  }
+
+
+  const filtered =
+    allUsers.filter(user => {
+
+      const username =
+        String(
+          user.username || ""
+        ).toLowerCase();
+
+      const email =
+        String(
+          user.email || ""
+        ).toLowerCase();
+
+      return (
+        username.includes(query) ||
+        email.includes(query)
+      );
+
+    });
+
+
+  renderUsers(filtered);
+
+}
+
+
+/* =====================================================
    USERS MANAGEMENT
 ===================================================== */
 
@@ -1191,98 +1717,16 @@ async function loadUsers(){
       await r.json();
 
 
-    const box =
-      document.getElementById(
-        "users"
-      );
+    allUsers =
+      Array.isArray(data)
+        ? data
+        : [];
 
 
-    if(!data.length){
-
-      box.innerHTML = `
-
-        <div class="empty-state">
-          No users found.
-        </div>
-
-      `;
-
-      return;
-
-    }
+    renderUsers(allUsers);
 
 
-    box.innerHTML =
-
-      data.map(x => `
-
-        <div class="admin-row">
-
-
-          <div class="admin-row-info">
-
-
-            <strong>
-
-              ${escapeHtml(
-                x.username
-              )}
-
-              <span
-                class="user-role ${
-                  x.role === "admin"
-                    ? "user-admin"
-                    : "user-creator"
-                }"
-              >
-
-                ${escapeHtml(
-                  x.role || "creator"
-                )}
-
-              </span>
-
-            </strong>
-
-
-            <div class="user-email">
-
-              ${escapeHtml(
-                x.email
-              )}
-
-            </div>
-
-
-            <div class="user-meta">
-
-              ${Number(
-                x.videos || 0
-              ).toLocaleString()}
-
-              videos
-
-              &nbsp;•&nbsp;
-
-              Joined
-
-              ${
-                x.createdAt
-                  ? new Date(
-                      x.createdAt
-                    ).toLocaleDateString()
-                  : "Unknown"
-              }
-
-            </div>
-
-
-          </div>
-
-
-        </div>
-
-      `).join("");
+    filterUsers();
 
 
   }catch(error){
@@ -1373,6 +1817,8 @@ async function loadWithdrawals(){
 
             <strong>
 
+              💰
+
               ${escapeHtml(
                 w.user || "Unknown"
               )}
@@ -1392,8 +1838,7 @@ async function loadWithdrawals(){
 
             <div class="user-meta">
 
-              Status:
-              ${statusBadge(
+              ${withdrawalBadge(
                 w.status || "pending"
               )}
 
@@ -1404,7 +1849,9 @@ async function loadWithdrawals(){
 
 
           ${
-            w.status === "pending"
+            String(
+              w.status || ""
+            ).toLowerCase() === "pending"
 
             ? `
 
@@ -1418,7 +1865,7 @@ async function loadWithdrawals(){
                     'paid'
                   )"
                 >
-                  Mark Paid
+                  ✓ Mark Paid
                 </button>
 
 
@@ -1429,7 +1876,7 @@ async function loadWithdrawals(){
                     'rejected'
                   )"
                 >
-                  Reject
+                  ✕ Reject
                 </button>
 
 
@@ -1617,6 +2064,8 @@ async function loadAds(){
 
 
             <strong class="campaign-title">
+
+              📢
 
               ${escapeHtml(
                 ad.title ||
@@ -1906,8 +2355,6 @@ load();
 
 </script>
 
-
 </body>
 
 </html>
-```
