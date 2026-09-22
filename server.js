@@ -84,7 +84,7 @@ app.use("/media",express.static(MEDIA, {
     res.setHeader("Cache-Control","public, max-age=31536000, immutable");
   }
 }));
-app.use(express.static(path.join(ROOT,"public")));
+app.use(express.static(ROOT));
 
 app.post("/api/register", async (req,res)=>{
   const {username,email,password}=req.body;
@@ -298,7 +298,7 @@ app.use((err,req,res,next)=>{
   console.error(err);
   res.status(500).json({error:"Internal server error"});
 });
-app.get("*",(req,res)=>res.sendFile(path.join(ROOT,"public","index.html")));
+app.get("*",(req,res)=>res.sendFile(path.join(ROOT,"index.html")));
 initDB().then(()=>{
   const server=app.listen(PORT,()=>console.log("StreamTube running on "+PORT));
   const shutdown=()=>server.close(()=>process.exit(0));
