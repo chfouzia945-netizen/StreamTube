@@ -8,7 +8,13 @@ if(v.hlsUrl){
   else if(el.canPlayType("application/vnd.apple.mpegurl")){ el.src=v.hlsUrl; }
   else if(v.videoUrl){ el.src=v.videoUrl; }
 } else if(v.videoUrl){ player.innerHTML=`<video controls playsinline src="${v.videoUrl}" poster="${v.thumbnail||""}"></video>`; }
-else { player.innerHTML=`<div class="thumb" style="height:500px">▶</div>`; }fetch("/api/videos/"+vid+"/view",{method:"POST"});loadComments();like.onclick=async()=>{let r=await fetch("/api/videos/"+vid+"/like",{method:"POST",headers:{Authorization:"Bearer "+token()}});let x=await r.json();if(r.status===401)return location="login.html";like.textContent="👍 Liked ("+x.likes+")"};sub.onclick=async()=>{let r=await fetch("/api/videos/"+vid+"/subscribe",{method:"POST",headers:{Authorization:"Bearer "+token()}});let x=await r.json();if(r.status===401)return location="login.html";sub.textContent=x.error||"Subscribed ✓"}}
+else { player.innerHTML=`<div class="thumb" style="height:500px">▶</div>`; }if(!sessionStorage.getItem("viewed_"+vid)){
+  fetch("/api/videos/"+vid+"/view",{
+    method:"POST"
+  }).then(()=>{
+    sessionStorage.setItem("viewed_"+vid,"1");
+  });
+}loadComments();like.onclick=async()=>{let r=await fetch("/api/videos/"+vid+"/like",{method:"POST",headers:{Authorization:"Bearer "+token()}});let x=await r.json();if(r.status===401)return location="login.html";like.textContent="👍 Liked ("+x.likes+")"};sub.onclick=async()=>{let r=await fetch("/api/videos/"+vid+"/subscribe",{method:"POST",headers:{Authorization:"Bearer "+token()}});let x=await r.json();if(r.status===401)return location="login.html";sub.textContent=x.error||"Subscribed ✓"}}
 async function loadComments(){let a=await (await fetch("/api/videos/"+vid+"/comments")).json();commentList.innerHTML=a.map(c=>`<div class="comment"><b>${c.username}</b><p>${c.body}</p></div>`).join("")||'<p class="muted">No comments yet.</p>'}
 async function comment(){
   if(!token()) return location="login.html";
