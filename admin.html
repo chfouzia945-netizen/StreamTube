@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 
 <html lang="en">
@@ -7,18 +8,445 @@
 <meta charset="utf-8">
 
 <meta
-name="viewport"
-content="width=device-width,initial-scale=1"
-
+  name="viewport"
+  content="width=device-width,initial-scale=1"
 >
 
 <title>Admin Dashboard — StreamTube</title>
 
 <link rel="stylesheet" href="style.css">
 
+<style>
+
+/* =====================================================
+   STREAMTUBE PROFESSIONAL ADMIN DASHBOARD
+===================================================== */
+
+.admin-page{
+  max-width:1250px;
+  margin:0 auto;
+  padding:36px 28px 70px;
+}
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.admin-header{
+  margin-bottom:28px;
+}
+
+.admin-header .pill{
+  display:inline-block;
+  margin-bottom:10px;
+}
+
+.admin-header h1{
+  margin:0 0 8px;
+  font-size:36px;
+  line-height:1.2;
+  letter-spacing:-0.5px;
+}
+
+.admin-header p{
+  margin:0;
+  font-size:15px;
+}
+
+/* =========================
+   STATISTICS
+========================= */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-bottom:28px;
+}
+
+.stat-card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:22px;
+  min-height:115px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.stat-label{
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:10px;
+}
+
+.stat-card strong{
+  display:block;
+  font-size:28px;
+  line-height:1;
+  font-weight:800;
+}
+
+/* =========================
+   ADMIN CARDS
+========================= */
+
+.admin-card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:24px;
+  margin-bottom:20px;
+}
+
+.section-full{
+  width:100%;
+}
+
+.admin-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.admin-grid .admin-card{
+  margin-bottom:0;
+}
+
+/* =========================
+   SECTION HEADERS
+========================= */
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.section-head h2{
+  margin:0 0 6px;
+  font-size:21px;
+  line-height:1.3;
+}
+
+.card-subtitle{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.admin-page .btn{
+  white-space:nowrap;
+}
+
+.admin-row-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+/* =========================
+   ADMIN ROWS
+========================= */
+
+.admin-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.admin-row:last-child{
+  border-bottom:0;
+}
+
+.admin-row-info{
+  min-width:0;
+  flex:1;
+}
+
+.admin-row-info strong{
+  display:block;
+  font-size:15px;
+  line-height:1.4;
+  font-weight:700;
+}
+
+.user-email{
+  color:#aeb6bf;
+  font-size:13px;
+  margin-top:5px;
+  word-break:break-word;
+}
+
+.user-meta{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:6px;
+  line-height:1.5;
+}
+
+/* =========================
+   USER ROLE
+========================= */
+
+.user-role{
+  display:inline-block;
+  margin-left:7px;
+  padding:4px 8px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  vertical-align:middle;
+  letter-spacing:.4px;
+}
+
+.user-admin{
+  background:#3b2418;
+  color:#ffb36b;
+}
+
+.user-creator{
+  background:#182d3d;
+  color:#65b9ff;
+}
+
+/* =========================
+   EMPTY STATES
+========================= */
+
+.empty-state{
+  padding:30px 18px;
+  text-align:center;
+  color:var(--muted);
+  background:#0e1216;
+  border:1px dashed #303740;
+  border-radius:10px;
+  font-size:13px;
+}
+
+/* =========================
+   AD CAMPAIGN FORM
+========================= */
+
+#adForm{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px 14px;
+}
+
+#adForm > div{
+  min-width:0;
+}
+
+#adForm label{
+  display:block;
+  color:#b7c0c9;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+#adForm input,
+#adForm select{
+  width:100%;
+  min-height:44px;
+  padding:11px 13px;
+  background:#0e1216;
+  color:#fff;
+  border:1px solid #303740;
+  border-radius:8px;
+  outline:none;
+  transition:border-color .15s ease,background .15s ease;
+}
+
+#adForm input::placeholder{
+  color:#68727d;
+}
+
+#adForm input:focus,
+#adForm select:focus{
+  border-color:#59636e;
+  background:#10151a;
+}
+
+#adForm button{
+  grid-column:1 / -1;
+  margin-top:2px;
+}
+
+/* =========================
+   CAMPAIGN LIST
+========================= */
+
+#ads,
+#campaignOverview{
+  margin-top:4px;
+}
+
+.campaign-title{
+  font-weight:700;
+}
+
+.campaign-status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+.campaign-active{
+  background:#183522;
+  color:#71d98b;
+}
+
+.campaign-paused{
+  background:#302b18;
+  color:#e7c766;
+}
+
+.campaign-draft{
+  background:#252b33;
+  color:#aeb6bf;
+}
+
+.campaign-rejected{
+  background:#3b1d1d;
+  color:#ff7777;
+}
+
+/* =========================
+   CAMPAIGN DETAILS
+========================= */
+
+.campaign-details{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 14px;
+  margin-top:6px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.campaign-details span{
+  white-space:nowrap;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .admin-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .admin-page{
+    padding:22px 14px 45px;
+  }
+
+  .admin-header h1{
+    font-size:28px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .stat-card{
+    padding:17px;
+    min-height:100px;
+  }
+
+  .stat-card strong{
+    font-size:23px;
+  }
+
+  .stat-label{
+    font-size:12px;
+  }
+
+  .admin-card{
+    padding:18px;
+  }
+
+  .section-head{
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .section-head .btn{
+    width:100%;
+  }
+
+  .admin-row{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .admin-row-actions{
+    width:100%;
+  }
+
+  .admin-row-actions .btn{
+    flex:1;
+  }
+
+  #adForm{
+    grid-template-columns:1fr;
+  }
+
+  #adForm button{
+    grid-column:auto;
+  }
+
+  .campaign-details{
+    flex-direction:column;
+    gap:3px;
+  }
+
+}
+
+</style>
+
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header>
 
@@ -27,354 +455,434 @@ content="width=device-width,initial-scale=1"
   </a>
 
   <nav>
-    <a href="/">Home</a>
-    <a href="studio.html">Studio</a>
-    <a href="upload.html">Upload</a>
-    <a href="#" onclick="logout();return false;">Logout</a>
+
+    <a href="/">
+      Home
+    </a>
+
+    <a href="studio.html">
+      Studio
+    </a>
+
+    <a href="upload.html">
+      Upload
+    </a>
+
+    <a
+      href="#"
+      onclick="logout();return false;"
+    >
+      Logout
+    </a>
+
   </nav>
 
 </header>
 
+
+<!-- =====================================================
+     MAIN ADMIN PAGE
+===================================================== -->
+
 <main class="admin-page">
+
 
   <!-- PAGE HEADER -->
 
   <section class="admin-header">
 
+    <span class="pill">
+      ADMIN PANEL
+    </span>
 
-<div>
+    <h1>
+      StreamTube Admin Dashboard
+    </h1>
 
-  <span class="pill">
-    ADMIN PANEL
-  </span>
+    <p class="muted">
+      Manage users, videos, withdrawals and advertising from one place.
+    </p>
 
-  <h1>
-    StreamTube Admin Dashboard
-  </h1>
+  </section>
 
-  <p class="muted">
-    Manage users, videos, withdrawals and advertising.
-  </p>
 
-</div>
+  <!-- =================================================
+       STATISTICS
+  ================================================== -->
+
+  <section
+    id="stats"
+    class="stats-grid"
+  >
+
+
+    <div class="stat-card">
+
+      <span class="stat-label">
+        Total Users
+      </span>
+
+      <strong id="usersCount">
+        —
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span class="stat-label">
+        Total Videos
+      </span>
+
+      <strong id="videosCount">
+        —
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span class="stat-label">
+        Total Views
+      </span>
+
+      <strong id="viewsCount">
+        —
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span class="stat-label">
+        Total Comments
+      </span>
+
+      <strong id="commentsCount">
+        —
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span class="stat-label">
+        Pending Withdrawals
+      </span>
+
+      <strong id="withdrawalsCount">
+        —
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span class="stat-label">
+        Ad Revenue
+      </span>
+
+      <strong id="adRevenue">
+        $0.00
+      </strong>
+
+    </div>
 
 
   </section>
 
-  <!-- STATISTICS -->
 
-  <section id="stats" class="stats-grid">
-
-
-<div class="stat-card">
-
-  <span class="stat-label">
-    Total Users
-  </span>
-
-  <strong id="usersCount">—</strong>
-
-</div>
-
-
-<div class="stat-card">
-
-  <span class="stat-label">
-    Total Videos
-  </span>
-
-  <strong id="videosCount">—</strong>
-
-</div>
-
-
-<div class="stat-card">
-
-  <span class="stat-label">
-    Total Views
-  </span>
-
-  <strong id="viewsCount">—</strong>
-
-</div>
-
-
-<div class="stat-card">
-
-  <span class="stat-label">
-    Total Comments
-  </span>
-
-  <strong id="commentsCount">—</strong>
-
-</div>
-
-
-<div class="stat-card">
-
-  <span class="stat-label">
-    Pending Withdrawals
-  </span>
-
-  <strong id="withdrawalsCount">—</strong>
-
-</div>
-
-
-<div class="stat-card">
-
-  <span class="stat-label">
-    Ad Revenue
-  </span>
-
-  <strong id="adRevenue">$0.00</strong>
-
-</div>
-
-
-  </section>
-
-  <!-- USERS MANAGEMENT -->
+  <!-- =================================================
+       USERS MANAGEMENT
+  ================================================== -->
 
   <section class="admin-card section-full">
 
 
-<div class="section-head">
+    <div class="section-head">
 
-  <div>
+      <div>
 
-    <h2>
-      Users Management
-    </h2>
+        <h2>
+          Users Management
+        </h2>
 
-    <div class="card-subtitle">
-      View registered users, account roles and uploaded videos.
+        <div class="card-subtitle">
+          View registered users, account roles and uploaded videos.
+        </div>
+
+      </div>
+
+
+      <button
+        class="btn"
+        onclick="loadUsers()"
+      >
+        Refresh Users
+      </button>
+
     </div>
 
-  </div>
 
+    <div id="users">
 
-  <button
-    class="btn"
-    onclick="loadUsers()"
-  >
-    Refresh Users
-  </button>
+      <div class="empty-state">
+        Loading users...
+      </div>
 
-</div>
-
-
-<div id="users">
-
-  <div class="empty-state">
-    Loading users...
-  </div>
-
-</div>
+    </div>
 
 
   </section>
 
-  <!-- WITHDRAWALS + ADS -->
+
+  <!-- =================================================
+       WITHDRAWALS + AD CAMPAIGNS
+  ================================================== -->
 
   <div class="admin-grid">
 
 
-<!-- WITHDRAWAL REQUESTS -->
+    <!-- WITHDRAWAL REQUESTS -->
 
-<section class="admin-card">
+    <section class="admin-card">
 
-  <div class="section-head">
 
-    <div>
+      <div class="section-head">
 
-      <h2>
-        Withdrawal Requests
-      </h2>
+        <div>
 
-      <div class="card-subtitle">
-        Review creator withdrawal requests.
+          <h2>
+            Withdrawal Requests
+          </h2>
+
+          <div class="card-subtitle">
+            Review creator withdrawal requests and payment status.
+          </div>
+
+        </div>
+
       </div>
 
-    </div>
 
-  </div>
+      <div id="withdrawals">
 
+        <div class="empty-state">
+          Loading withdrawals...
+        </div>
 
-  <div id="withdrawals">
-
-    <div class="empty-state">
-      Loading withdrawals...
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- AD CAMPAIGNS -->
-
-<section class="admin-card">
-
-  <div class="section-head">
-
-    <div>
-
-      <h2>
-        Ad Campaigns
-      </h2>
-
-      <div class="card-subtitle">
-        Create and manage advertising campaigns.
       </div>
 
-    </div>
+
+    </section>
+
+
+    <!-- AD CAMPAIGNS -->
+
+    <section class="admin-card">
+
+
+      <div class="section-head">
+
+        <div>
+
+          <h2>
+            Ad Campaigns
+          </h2>
+
+          <div class="card-subtitle">
+            Create and manage advertising campaigns.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- AD FORM -->
+
+      <form
+        id="adForm"
+        onsubmit="createAd(event)"
+      >
+
+
+        <div>
+
+          <label>
+            Campaign Name
+          </label>
+
+          <input
+            id="adTitle"
+            placeholder="e.g. Summer Promotion"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Creative URL
+          </label>
+
+          <input
+            id="creativeUrl"
+            placeholder="https://example.com/banner.jpg"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Target URL
+          </label>
+
+          <input
+            id="targetUrl"
+            placeholder="https://example.com"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Total Budget (USD)
+          </label>
+
+          <input
+            id="adBudget"
+            type="number"
+            min="1"
+            step="0.01"
+            placeholder="100"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Creator CPM (USD)
+          </label>
+
+          <input
+            id="creatorCpm"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="2"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Platform CPM (USD)
+          </label>
+
+          <input
+            id="platformCpm"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="1"
+            required
+          >
+
+        </div>
+
+
+        <button
+          class="btn wide"
+          type="submit"
+        >
+          Create Campaign
+        </button>
+
+
+      </form>
+
+
+      <!-- CAMPAIGN LIST -->
+
+      <div id="ads">
+
+        <div class="empty-state">
+          Loading campaigns...
+        </div>
+
+      </div>
+
+
+    </section>
+
 
   </div>
 
 
-  <form
-    id="adForm"
-    onsubmit="createAd(event)"
-  >
-
-    <label>
-      Campaign Name
-    </label>
-
-    <input
-      id="adName"
-      placeholder="Campaign name"
-      required
-    >
-
-
-    <label>
-      Advertiser
-    </label>
-
-    <input
-      id="adAdvertiser"
-      placeholder="Advertiser name"
-      required
-    >
-
-
-    <label>
-      Budget
-    </label>
-
-    <input
-      id="adBudget"
-      type="number"
-      min="0"
-      step="0.01"
-      placeholder="Budget"
-      required
-    >
-
-
-    <label>
-      CPM
-    </label>
-
-    <input
-      id="adCpm"
-      type="number"
-      min="0"
-      step="0.01"
-      placeholder="CPM"
-      required
-    >
-
-
-    <label>
-      Status
-    </label>
-
-    <select id="adStatus">
-
-      <option value="active">
-        Active
-      </option>
-
-      <option value="paused">
-        Paused
-      </option>
-
-      <option value="draft">
-        Draft
-      </option>
-
-    </select>
-
-
-    <button
-      class="btn wide"
-      type="submit"
-    >
-      Create Campaign
-    </button>
-
-  </form>
-
-
-  <div
-    id="ads"
-    style="margin-top:20px"
-  >
-
-    <div class="empty-state">
-      Loading campaigns...
-    </div>
-
-  </div>
-
-</section>
-
-
-  </div>
-
-  <!-- CAMPAIGN OVERVIEW -->
+  <!-- =================================================
+       CAMPAIGN OVERVIEW
+  ================================================== -->
 
   <section class="admin-card section-full">
 
 
-<div class="section-head">
+    <div class="section-head">
 
-  <div>
+      <div>
 
-    <h2>
-      Campaign Overview
-    </h2>
+        <h2>
+          Campaign Overview
+        </h2>
 
-    <div class="card-subtitle">
-      Advertising campaign performance.
+        <div class="card-subtitle">
+          Advertising campaign performance and budget information.
+        </div>
+
+      </div>
+
     </div>
 
-  </div>
 
-</div>
+    <div id="campaignOverview">
 
+      <div class="empty-state">
+        Campaign data will appear here.
+      </div>
 
-<div id="campaignOverview">
-
-  <div class="empty-state">
-    Campaign data will appear here.
-  </div>
-
-</div>
+    </div>
 
 
   </section>
 
+
 </main>
+
 
 <script>
 
-/* =========================
-   AUTH
-========================= */
+/* =====================================================
+   AUTHENTICATION
+===================================================== */
 
 const adminToken =
   localStorage.getItem("token") || "";
@@ -383,10 +891,13 @@ const adminToken =
 function authHeaders(){
 
   return {
+
     "Authorization":
       "Bearer " + adminToken,
+
     "Content-Type":
       "application/json"
+
   };
 
 }
@@ -401,25 +912,66 @@ function logout(){
 }
 
 
-/* =========================
+/* =====================================================
    ESCAPE HTML
-========================= */
+===================================================== */
 
 function escapeHtml(value){
 
   return String(value ?? "")
+
     .replace(/&/g,"&amp;")
+
     .replace(/</g,"&lt;")
+
     .replace(/>/g,"&gt;")
+
     .replace(/"/g,"&quot;")
+
     .replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================
+/* =====================================================
+   STATUS BADGE
+===================================================== */
+
+function statusBadge(status){
+
+  const value =
+    String(status || "draft")
+      .toLowerCase();
+
+  let cls =
+    "campaign-draft";
+
+  if(value === "active"){
+    cls = "campaign-active";
+  }
+
+  if(value === "paused"){
+    cls = "campaign-paused";
+  }
+
+  if(value === "rejected"){
+    cls = "campaign-rejected";
+  }
+
+  return `
+
+    <span class="campaign-status ${cls}">
+      ${escapeHtml(value)}
+    </span>
+
+  `;
+
+}
+
+
+/* =====================================================
    LOAD DASHBOARD
-========================= */
+===================================================== */
 
 async function load(){
 
@@ -434,15 +986,22 @@ async function load(){
 
   try{
 
+
     const r = await fetch(
+
       "/api/admin/stats",
+
       {
         headers:authHeaders()
       }
+
     );
 
 
-    if(r.status === 401 || r.status === 403){
+    if(
+      r.status === 401 ||
+      r.status === 403
+    ){
 
       document.body.innerHTML = `
 
@@ -485,14 +1044,18 @@ async function load(){
     }
 
 
-    const s = await r.json();
+    const s =
+      await r.json();
 
 
     renderStats(s);
 
+
     await loadUsers();
 
+
     await loadWithdrawals();
+
 
     await loadAds();
 
@@ -501,7 +1064,10 @@ async function load(){
 
     console.error(error);
 
-    document.getElementById("stats").innerHTML = `
+
+    document.getElementById(
+      "stats"
+    ).innerHTML = `
 
       <div
         class="admin-card"
@@ -525,44 +1091,56 @@ async function load(){
 }
 
 
-/* =========================
-   RENDER STATS
-========================= */
+/* =====================================================
+   RENDER STATISTICS
+===================================================== */
 
 function renderStats(s){
 
-  document.getElementById("usersCount")
-    .textContent =
+  document.getElementById(
+    "usersCount"
+  ).textContent =
+
     Number(s.users || 0)
       .toLocaleString();
 
 
-  document.getElementById("videosCount")
-    .textContent =
+  document.getElementById(
+    "videosCount"
+  ).textContent =
+
     Number(s.videos || 0)
       .toLocaleString();
 
 
-  document.getElementById("viewsCount")
-    .textContent =
+  document.getElementById(
+    "viewsCount"
+  ).textContent =
+
     Number(s.views || 0)
       .toLocaleString();
 
 
-  document.getElementById("commentsCount")
-    .textContent =
+  document.getElementById(
+    "commentsCount"
+  ).textContent =
+
     Number(s.comments || 0)
       .toLocaleString();
 
 
-  document.getElementById("withdrawalsCount")
-    .textContent =
+  document.getElementById(
+    "withdrawalsCount"
+  ).textContent =
+
     Number(s.withdrawals || 0)
       .toLocaleString();
 
 
-  document.getElementById("adRevenue")
-    .textContent =
+  document.getElementById(
+    "adRevenue"
+  ).textContent =
+
     "$" +
     Number(s.adRevenue || 0)
       .toFixed(2);
@@ -570,24 +1148,33 @@ function renderStats(s){
 }
 
 
-/* =========================
+/* =====================================================
    USERS MANAGEMENT
-========================= */
+===================================================== */
 
 async function loadUsers(){
 
   try{
 
+
     const r = await fetch(
+
       "/api/admin/users",
+
       {
         headers:authHeaders()
       }
+
     );
 
 
-    if(r.status === 401 || r.status === 403){
+    if(
+      r.status === 401 ||
+      r.status === 403
+    ){
+
       return;
+
     }
 
 
@@ -600,11 +1187,14 @@ async function loadUsers(){
     }
 
 
-    const data = await r.json();
+    const data =
+      await r.json();
 
 
     const box =
-      document.getElementById("users");
+      document.getElementById(
+        "users"
+      );
 
 
     if(!data.length){
@@ -622,72 +1212,87 @@ async function loadUsers(){
     }
 
 
-    box.innerHTML = data.map(x => `
+    box.innerHTML =
 
-      <div class="admin-row">
+      data.map(x => `
 
-        <div class="admin-row-info">
+        <div class="admin-row">
 
-          <strong>
 
-            ${escapeHtml(x.username)}
+          <div class="admin-row-info">
 
-            <span
-              class="user-role ${
-                x.role === "admin"
-                  ? "user-admin"
-                  : "user-creator"
-              }"
-            >
+
+            <strong>
 
               ${escapeHtml(
-                x.role || "creator"
+                x.username
               )}
 
-            </span>
+              <span
+                class="user-role ${
+                  x.role === "admin"
+                    ? "user-admin"
+                    : "user-creator"
+                }"
+              >
 
-          </strong>
+                ${escapeHtml(
+                  x.role || "creator"
+                )}
+
+              </span>
+
+            </strong>
 
 
-          <div class="user-email">
+            <div class="user-email">
 
-            ${escapeHtml(x.email)}
+              ${escapeHtml(
+                x.email
+              )}
+
+            </div>
+
+
+            <div class="user-meta">
+
+              ${Number(
+                x.videos || 0
+              ).toLocaleString()}
+
+              videos
+
+              &nbsp;•&nbsp;
+
+              Joined
+
+              ${
+                x.createdAt
+                  ? new Date(
+                      x.createdAt
+                    ).toLocaleDateString()
+                  : "Unknown"
+              }
+
+            </div>
+
 
           </div>
 
-
-          <div class="user-meta">
-
-            ${Number(x.videos || 0)
-              .toLocaleString()}
-            videos
-
-            •
-
-            Joined
-
-            ${
-              x.createdAt
-                ? new Date(
-                    x.createdAt
-                  ).toLocaleDateString()
-                : "Unknown"
-            }
-
-          </div>
 
         </div>
 
-      </div>
-
-    `).join("");
+      `).join("");
 
 
   }catch(error){
 
     console.error(error);
 
-    document.getElementById("users").innerHTML = `
+
+    document.getElementById(
+      "users"
+    ).innerHTML = `
 
       <div class="empty-state">
         Users could not be loaded.
@@ -700,19 +1305,23 @@ async function loadUsers(){
 }
 
 
-/* =========================
+/* =====================================================
    WITHDRAWALS
-========================= */
+===================================================== */
 
 async function loadWithdrawals(){
 
   try{
 
+
     const r = await fetch(
+
       "/api/admin/withdrawals",
+
       {
         headers:authHeaders()
       }
+
     );
 
 
@@ -725,11 +1334,14 @@ async function loadWithdrawals(){
     }
 
 
-    const data = await r.json();
+    const data =
+      await r.json();
 
 
     const box =
-      document.getElementById("withdrawals");
+      document.getElementById(
+        "withdrawals"
+      );
 
 
     if(!data.length){
@@ -737,7 +1349,9 @@ async function loadWithdrawals(){
       box.innerHTML = `
 
         <div class="empty-state">
+
           No withdrawal requests.
+
         </div>
 
       `;
@@ -747,82 +1361,96 @@ async function loadWithdrawals(){
     }
 
 
-    box.innerHTML = data.map(w => `
+    box.innerHTML =
 
-      <div class="admin-row">
+      data.map(w => `
 
-        <div class="admin-row-info">
-
-          <strong>
-            ${escapeHtml(
-              w.user || "Unknown"
-            )}
-          </strong>
+        <div class="admin-row">
 
 
-          <div class="user-email">
-
-            Amount:
-            $${Number(
-              w.amount || 0
-            ).toFixed(2)}
-
-          </div>
+          <div class="admin-row-info">
 
 
-          <div class="user-meta">
+            <strong>
 
-            Status:
-            ${escapeHtml(
-              w.status || "pending"
-            )}
+              ${escapeHtml(
+                w.user || "Unknown"
+              )}
 
-          </div>
-
-        </div>
+            </strong>
 
 
-        ${
-          w.status === "pending"
-          ? `
+            <div class="user-email">
 
-            <div class="admin-row-actions">
-
-              <button
-                class="btn"
-                onclick="updateWithdrawal(
-                  '${escapeHtml(w.id)}',
-                  'approved'
-                )"
-              >
-                Approve
-              </button>
-
-
-              <button
-                class="btn"
-                onclick="updateWithdrawal(
-                  '${escapeHtml(w.id)}',
-                  'rejected'
-                )"
-              >
-                Reject
-              </button>
+              Amount:
+              $${Number(
+                w.amount || 0
+              ).toFixed(2)}
 
             </div>
 
-          `
-          : ""
-        }
 
-      </div>
+            <div class="user-meta">
 
-    `).join("");
+              Status:
+              ${statusBadge(
+                w.status || "pending"
+              )}
+
+            </div>
+
+
+          </div>
+
+
+          ${
+            w.status === "pending"
+
+            ? `
+
+              <div class="admin-row-actions">
+
+
+                <button
+                  class="btn"
+                  onclick="updateWithdrawal(
+                    '${escapeHtml(w.id)}',
+                    'paid'
+                  )"
+                >
+                  Mark Paid
+                </button>
+
+
+                <button
+                  class="btn"
+                  onclick="updateWithdrawal(
+                    '${escapeHtml(w.id)}',
+                    'rejected'
+                  )"
+                >
+                  Reject
+                </button>
+
+
+              </div>
+
+            `
+
+            : ""
+
+          }
+
+
+        </div>
+
+      `).join("");
 
 
   }catch(error){
 
     console.error(error);
+
 
     document.getElementById(
       "withdrawals"
@@ -839,9 +1467,9 @@ async function loadWithdrawals(){
 }
 
 
-/* =========================
+/* =====================================================
    UPDATE WITHDRAWAL
-========================= */
+===================================================== */
 
 async function updateWithdrawal(
   id,
@@ -849,19 +1477,27 @@ async function updateWithdrawal(
 ){
 
   const r = await fetch(
+
     "/api/admin/withdrawals/" +
     encodeURIComponent(id),
+
     {
+
       method:"POST",
+
       headers:authHeaders(),
+
       body:JSON.stringify({
         status
       })
+
     }
+
   );
 
 
-  const x = await r.json();
+  const x =
+    await r.json();
 
 
   if(!r.ok){
@@ -881,24 +1517,36 @@ async function updateWithdrawal(
 }
 
 
-/* =========================
-   LOAD ADS
-========================= */
+/* =====================================================
+   LOAD AD CAMPAIGNS
+===================================================== */
 
 async function loadAds(){
 
   try{
 
+
     const r = await fetch(
+
       "/api/admin/ads",
+
       {
         headers:authHeaders()
       }
+
     );
 
 
     const box =
-      document.getElementById("ads");
+      document.getElementById(
+        "ads"
+      );
+
+
+    const overview =
+      document.getElementById(
+        "campaignOverview"
+      );
 
 
     if(!r.ok){
@@ -911,20 +1559,10 @@ async function loadAds(){
 
       `;
 
-      return;
-
-    }
-
-
-    const data = await r.json();
-
-
-    if(!data.length){
-
-      box.innerHTML = `
+      overview.innerHTML = `
 
         <div class="empty-state">
-          No ad campaigns yet.
+          No campaign data available.
         </div>
 
       `;
@@ -934,118 +1572,210 @@ async function loadAds(){
     }
 
 
-    box.innerHTML = data.map(ad => `
-
-      <div class="admin-row">
-
-        <div class="admin-row-info">
-
-          <strong>
-
-            ${escapeHtml(
-              ad.name ||
-              ad.campaignName ||
-              "Campaign"
-            )}
-
-          </strong>
+    const data =
+      await r.json();
 
 
-          <div class="user-email">
+    if(!data.length){
 
-            ${escapeHtml(
-              ad.advertiser ||
-              "Unknown advertiser"
-            )}
+      box.innerHTML = `
 
-          </div>
+        <div class="empty-state">
 
-
-          <div class="user-meta">
-
-            Budget:
-            $${Number(
-              ad.budget || 0
-            ).toFixed(2)}
-
-            •
-
-            CPM:
-            $${Number(
-              ad.cpm || 0
-            ).toFixed(2)}
-
-            •
-
-            Status:
-            ${escapeHtml(
-              ad.status || "draft"
-            )}
-
-          </div>
+          No ad campaigns yet.
 
         </div>
 
-      </div>
-
-    `).join("");
+      `;
 
 
-    const overview =
-      document.getElementById(
-        "campaignOverview"
-      );
+      overview.innerHTML = `
 
+        <div class="empty-state">
 
-    overview.innerHTML = data.map(ad => `
-
-      <div class="admin-row">
-
-        <div class="admin-row-info">
-
-          <strong>
-
-            ${escapeHtml(
-              ad.name ||
-              ad.campaignName ||
-              "Campaign"
-            )}
-
-          </strong>
-
-
-          <div class="user-meta">
-
-            ${escapeHtml(
-              ad.status || "draft"
-            )}
-
-            •
-
-            Budget:
-            $${Number(
-              ad.budget || 0
-            ).toFixed(2)}
-
-          </div>
+          Campaign data will appear here.
 
         </div>
 
-      </div>
+      `;
 
-    `).join("");
+      return;
+
+    }
+
+
+    /* CAMPAIGN LIST */
+
+    box.innerHTML =
+
+      data.map(ad => `
+
+        <div class="admin-row">
+
+
+          <div class="admin-row-info">
+
+
+            <strong class="campaign-title">
+
+              ${escapeHtml(
+                ad.title ||
+                ad.name ||
+                ad.campaignName ||
+                "Campaign"
+              )}
+
+            </strong>
+
+
+            <div class="campaign-details">
+
+              <span>
+                Budget:
+                $${Number(
+                  ad.budget || 0
+                ).toFixed(2)}
+              </span>
+
+
+              <span>
+                Creator CPM:
+                $${Number(
+                  ad.creatorCpm || 0
+                ).toFixed(2)}
+              </span>
+
+
+              <span>
+                Platform CPM:
+                $${Number(
+                  ad.platformCpm || 0
+                ).toFixed(2)}
+              </span>
+
+
+              <span>
+                ${statusBadge(
+                  ad.status || "draft"
+                )}
+              </span>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+      `).join("");
+
+
+    /* CAMPAIGN OVERVIEW */
+
+    overview.innerHTML =
+
+      data.map(ad => `
+
+        <div class="admin-row">
+
+
+          <div class="admin-row-info">
+
+
+            <strong>
+
+              ${escapeHtml(
+                ad.title ||
+                ad.name ||
+                ad.campaignName ||
+                "Campaign"
+              )}
+
+            </strong>
+
+
+            <div class="campaign-details">
+
+
+              <span>
+
+                Budget:
+                $${Number(
+                  ad.budget || 0
+                ).toFixed(2)}
+
+              </span>
+
+
+              <span>
+
+                Status:
+                ${statusBadge(
+                  ad.status || "draft"
+                )}
+
+              </span>
+
+
+              ${
+                ad.createdAt
+
+                ? `
+
+                  <span>
+
+                    Created:
+                    ${new Date(
+                      ad.createdAt
+                    ).toLocaleDateString()}
+
+                  </span>
+
+                `
+
+                : ""
+
+              }
+
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+      `).join("");
 
 
   }catch(error){
 
     console.error(error);
 
+
     document.getElementById(
       "ads"
     ).innerHTML = `
 
       <div class="empty-state">
+
         Campaigns could not be loaded.
+
+      </div>
+
+    `;
+
+
+    document.getElementById(
+      "campaignOverview"
+    ).innerHTML = `
+
+      <div class="empty-state">
+
+        Campaign overview could not be loaded.
+
       </div>
 
     `;
@@ -1055,9 +1785,9 @@ async function loadAds(){
 }
 
 
-/* =========================
+/* =====================================================
    CREATE AD CAMPAIGN
-========================= */
+===================================================== */
 
 async function createAd(event){
 
@@ -1066,49 +1796,79 @@ async function createAd(event){
 
   const payload = {
 
-    name:
+
+    title:
+
       document.getElementById(
-        "adName"
+        "adTitle"
       ).value.trim(),
 
-    advertiser:
+
+    creativeUrl:
+
       document.getElementById(
-        "adAdvertiser"
+        "creativeUrl"
       ).value.trim(),
+
+
+    targetUrl:
+
+      document.getElementById(
+        "targetUrl"
+      ).value.trim(),
+
 
     budget:
+
       Number(
         document.getElementById(
           "adBudget"
         ).value
       ),
 
-    cpm:
+
+    creatorCpm:
+
       Number(
         document.getElementById(
-          "adCpm"
+          "creatorCpm"
         ).value
       ),
 
-    status:
-      document.getElementById(
-        "adStatus"
-      ).value
+
+    platformCpm:
+
+      Number(
+        document.getElementById(
+          "platformCpm"
+        ).value
+      )
+
 
   };
 
 
   const r = await fetch(
+
     "/api/admin/ads",
+
     {
+
       method:"POST",
+
       headers:authHeaders(),
-      body:JSON.stringify(payload)
+
+      body:JSON.stringify(
+        payload
+      )
+
     }
+
   );
 
 
-  const x = await r.json();
+  const x =
+    await r.json();
 
 
   if(!r.ok){
@@ -1138,14 +1898,16 @@ async function createAd(event){
 }
 
 
-/* =========================
-   START
-========================= */
+/* =====================================================
+   START DASHBOARD
+===================================================== */
 
 load();
 
 </script>
 
+
 </body>
 
 </html>
+```
