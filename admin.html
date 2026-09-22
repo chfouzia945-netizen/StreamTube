@@ -975,14 +975,14 @@
 
       </div>
 
-      <button
-        class="btn"
-        onclick="loadUsers()"
-        type="button"
-      >
-        ↻ Refresh Users
-      </button>
-
+    <button
+  id="refreshUsersBtn"
+  class="btn"
+  onclick="refreshUsers()"
+  type="button"
+>
+  ↻ Refresh Users
+</button>
     </div>
 
     <input
@@ -2261,6 +2261,71 @@ async function loadUsers(){
 
 }
 
+/* =====================================================
+   REFRESH USERS BUTTON
+===================================================== */
+
+async function refreshUsers(){
+
+  const button =
+    document.getElementById(
+      "refreshUsersBtn"
+    );
+
+  if(button){
+
+    button.disabled = true;
+
+    button.textContent =
+      "↻ Refreshing...";
+
+  }
+
+  try{
+
+    await loadUsers();
+
+    if(button){
+
+      button.textContent =
+        "✓ Users Refreshed";
+
+    }
+
+    setTimeout(() => {
+
+      if(button){
+
+        button.disabled = false;
+
+        button.textContent =
+          "↻ Refresh Users";
+
+      }
+
+    },1200);
+
+  }catch(error){
+
+    console.error(error);
+
+    if(button){
+
+      button.disabled = false;
+
+      button.textContent =
+        "↻ Refresh Users";
+
+    }
+
+    alert(
+      "Users could not be refreshed."
+    );
+
+  }
+
+}
+  
 
 /* =====================================================
    LOAD WITHDRAWALS
