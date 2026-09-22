@@ -128,16 +128,75 @@ app.get("/api/videos/:id",async (req,res)=>{
   res.json(v);
 });
 
-app.post("/api/videos/:id/view",async (req,res)=>{
-  const d=await db(),v=d.videos.find(x=>x.id===req.params.id);
+app.post("/api/videos/:id/view",optionalAuth,async (req,res)=>{
+  const d=await db();
+  const v=d.videos.find(x=>x.id===req.params.id);
+
   if(!v)return res.status(404).json({error:"Video not found"});
-  v.views=(v.views||0)+1; save(d); res.json({views:v.views});
+
+  if(!d.videoViews) d.videoViews=[];
+
+  const viewerId=req.user?.id || null;
+  const ip=req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress || "";
+  const userAgent=req.headers["user-agent"] || "";
+
+  const viewerKey=viewerId
+    ? "user:"+viewerId
+    : "guest:"+ip+":"+userAgent;
+
+  const alreadyViewed=d.videoViews.some(
+    x=>x.videoId===v.id && x.viewerKey===viewerKey
+  );
+
+  if(!alreadyViewed){
+    d.videoViews.push({
+      id:id("view"),
+      videoId:v.id,
+      viewerKey,
+      createdAt:new Date().toISOString()
+    });
+
+    v.views=(v.views||0)+1;
+    await save(d);
+  }
+
+  res.json({views:v.views||0, counted:!alreadyViewed});
 });
 
 app.post("/api/videos/:id/like",auth,async (req,res)=>{
-  const d=await db(),v=d.videos.find(x=>x.id===req.params.id);
+  const d=await db();
+  const v=d.videos.find(x=>x.id===req.params.id);
+
   if(!v)return res.status(404).json({error:"Video not found"});
-  v.likes=(v.likes||0)+1; save(d); res.json({likes:v.likes});
+
+  if(!d.videoLikes) d.videoLikes=[];
+
+  const alreadyLiked=d.videoLikes.some(
+    x=>x.videoId===v.id && x.userId===req.user.id
+  );
+
+  if(alreadyLiked){
+    return res.json({
+      likes:v.likes||0,
+      alreadyLiked:true
+    });
+  }
+
+  d.videoLikes.push({
+    id:id("like"),
+    videoId:v.id,
+    userId:req.user.id,
+    createdAt:new Date().toISOString()
+  });
+
+  v.likes=(v.likes||0)+1;
+
+  await save(d);
+
+  res.json({
+    likes:v.likes,
+    alreadyLiked:false
+  });
 });
 
 app.post("/api/videos/:id/comments",auth,async (req,res)=>{
