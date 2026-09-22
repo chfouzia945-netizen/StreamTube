@@ -93,8 +93,15 @@ app.post("/api/register", async (req,res)=>{
   if(!cleanUsername||!cleanEmail||!password||password.length<8) return res.status(400).json({error:"Username, email and 6+ character password required"});
   const d=await db();
   if(d.users.some(u=>u.email.toLowerCase()===cleanEmail||u.username.toLowerCase()===cleanUsername.toLowerCase())) return res.status(409).json({error:"Username or email already exists"});
-  const u={id:id("u"),username:cleanUsername,email:cleanEmail,password:bcrypt.hashSync(password,10),role:"creator",createdAt:new Date().toISOString()};
-  d.users.push(u); save(d);
+  const u={
+  id:id("u"),
+  username:cleanUsername,
+  email:cleanEmail,
+  password:bcrypt.hashSync(password,10),
+  role:"creator",
+  status:"active",
+  createdAt:new Date().toISOString()
+};
   const token=jwt.sign({id:u.id,username:u.username,role:u.role},SECRET,{expiresIn:"7d"});
   res.json({token,user:{id:u.id,username:u.username,email:u.email,role:u.role}});
 });
@@ -102,7 +109,8 @@ app.post("/api/register", async (req,res)=>{
 app.post("/api/login",async (req,res)=>{
   const d=await db(), {email,password}=req.body;
   const u=d.users.find(x=>x.email.toLowerCase()===String(email||"").toLowerCase());
-  if(!u||!bcrypt.compareSync(password||"",u.password)) return res.status(401).json({error:"Wrong email or password"});
+  if(!u||u.status==="disabled"||!bcrypt.compareSync(password||"",u.password))
+  return res.status(401).json({error:"Wrong email or password"}); return res.status(401).json({error:"Wrong email or password"});
   const token=jwt.sign({id:u.id,username:u.username,role:u.role},SECRET,{expiresIn:"7d"});
   res.json({token,user:{id:u.id,username:u.username,email:u.email,role:u.role}});
 });
@@ -382,6 +390,130 @@ app.get("/api/admin/stats",auth,admin,async (req,res)=>{
 // =========================
 
 app.get("/api/admin/users",auth,admin,async (req,res)=>{
+
+  // =========================
+// ADMIN USER CONTROLS
+// =========================
+
+// Disable / Enable user
+app.post("/api/admin/users/:id/status", auth, admin, async (req, res) => {
+  try {
+    const d = await db();
+    const u = d.users.find(x => x.id === req.params.id);
+
+    if (!u) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Admin account cannot be disabled
+    if (u.role === "admin") {
+      return res.status(400).json({ error: "Admin account cannot be disabled" });
+    }
+
+    const status = req.body.status === "disabled" ? "disabled" : "active";
+
+    u.status = status;
+
+    await save(d);
+
+    res.json({
+      message: status === "disabled" ? "User disabled" : "User enabled",
+      user: {
+        id: u.id,
+        username: u.username,
+        status: u.status
+      }
+    });
+
+  } catch (error) {
+    console.error("ADMIN USER STATUS ERROR:", error);
+
+    res.status(500).json({
+      error: "Failed to update user status"
+    });
+  }
+});
+
+
+// Delete user
+app.delete("/api/admin/users/:id", auth, admin, async (req, res) => {
+  try {
+    const d = await db();
+
+    const index = d.users.findIndex(x => x.id === req.params.id);
+
+    if (index === -1) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const user = d.users[index];
+
+    // Admin account cannot be deleted
+    if (user.role === "admin") {
+      return res.status(400).json({ error: "Admin account cannot be deleted" });
+    }
+
+    // Remove user
+    d.users.splice(index, 1);
+
+    // Remove user's subscriptions
+    if (Array.isArray(d.subscriptions)) {
+      d.subscriptions = d.subscriptions.filter(
+        s => s.userId !== user.id && s.creatorId !== user.id
+      );
+    }
+
+    // Remove user's comments
+    if (Array.isArray(d.comments)) {
+      d.comments = d.comments.filter(
+        c => c.userId !== user.id
+      );
+    }
+
+    // Remove user's withdrawals
+    if (Array.isArray(d.withdrawals)) {
+      d.withdrawals = d.withdrawals.filter(
+        w => w.userId !== user.id
+      );
+    }
+
+    // Remove user's earnings
+    if (Array.isArray(d.earnings)) {
+      d.earnings = d.earnings.filter(
+        e => e.creatorId !== user.id
+      );
+    }
+
+    // Remove user's likes
+    if (Array.isArray(d.videoLikes)) {
+      d.videoLikes = d.videoLikes.filter(
+        l => l.userId !== user.id
+      );
+    }
+
+    // Remove user's video view records
+    if (Array.isArray(d.videoViews)) {
+      d.videoViews = d.videoViews.filter(
+        v => v.viewerKey !== "user:" + user.id
+      );
+    }
+
+    await save(d);
+
+    res.json({
+      message: "User deleted successfully",
+      userId: user.id
+    });
+
+  } catch (error) {
+    console.error("ADMIN DELETE USER ERROR:", error);
+
+    res.status(500).json({
+      error: "Failed to delete user"
+    });
+  }
+});
+  
   try{
     const d=await db();
 
