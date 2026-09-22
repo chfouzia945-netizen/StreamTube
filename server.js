@@ -329,17 +329,7 @@ app.post('/api/admin/ads/:id/status',auth,admin,async (req,res)=>{
   const status=['active','paused'].includes(req.body.status)?req.body.status:a.status; a.status=status; save(d); res.json(a);
 });
 
-app.get("/api/admin/stats",auth,admin,async (req,res)=>{
-  const d=await db();
-  res.json({
-    users:d.users.length,videos:d.videos.length,views:d.videos.reduce((n,v)=>n+(v.views||0),0),
-    comments:d.comments.length,withdrawals:d.withdrawals.filter(w=>w.status==="pending").length,
-    adRevenue:d.earnings.reduce((n,e)=>n+e.amount,0)
-  });
-});
-app.get("/api/admin/withdrawals",auth,admin,async (req,res)=>{
-  const d=await db(); res.json(d.withdrawals.map(w=>({...w,user:d.users.find(u=>u.id===w.userId)?.username||"Unknown"})));
-});
+c
 app.post("/api/admin/withdrawals/:id",auth,admin,async (req,res)=>{
   const d=await db(),w=d.withdrawals.find(x=>x.id===req.params.id);
   if(!w)return res.status(404).json({error:"Not found"});
