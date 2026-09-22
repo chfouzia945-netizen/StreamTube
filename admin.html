@@ -1,10 +1,793 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin — StreamTube</title><link rel="stylesheet" href="style.css"></head><body><header><a class="logo" href="/">Stream<span>Tube</span></a><nav><a href="/">Home</a><a href="studio.html">Studio</a></nav></header><main class="studio"><h1>Admin control center</h1><p class="muted">Users, videos, views, revenue and withdrawal requests.</p><div id="stats" class="stats"></div><div class="card"><h2>Withdrawal requests</h2><div id="withdrawals"></div></div><section class="card" style="margin-top:20px"><h2>Ad campaigns</h2><form onsubmit="createAd(event)" style="display:grid;gap:8px"><input id="adTitle" placeholder="Campaign title" required><input id="creativeUrl" placeholder="Creative image/video URL" required><input id="targetUrl" placeholder="Target URL" required><input id="budget" type="number" min="1" step="0.01" placeholder="Budget USD" required><input id="creatorCpm" type="number" min="0" step="0.01" placeholder="Creator CPM" required><input id="platformCpm" type="number" min="0.01" step="0.01" placeholder="Platform CPM" required><button>Create campaign</button></form><div id="ads" style="margin-top:12px"></div></section></main><script>
-async function load(){let h={Authorization:"Bearer "+localStorage.token};let r=await fetch("/api/admin/stats",{headers:h});if(!r.ok)return document.body.innerHTML='<main class="auth"><div class="auth-card"><h2>Admin login required</h2><a class="btn wide" href="login.html">Login</a></div><section class="card" style="margin-top:20px"><h2>Ad campaigns</h2><form onsubmit="createAd(event)" style="display:grid;gap:8px"><input id="adTitle" placeholder="Campaign title" required><input id="creativeUrl" placeholder="Creative image/video URL" required><input id="targetUrl" placeholder="Target URL" required><input id="budget" type="number" min="1" step="0.01" placeholder="Budget USD" required><input id="creatorCpm" type="number" min="0" step="0.01" placeholder="Creator CPM" required><input id="platformCpm" type="number" min="0.01" step="0.01" placeholder="Platform CPM" required><button>Create campaign</button></form><div id="ads" style="margin-top:12px"></div></section></main>';let s=await r.json();stats.innerHTML=[["Users",s.users],["Videos",s.videos],["Views",s.views],["Comments",s.comments],["Pending withdrawals",s.withdrawals],["Ledger revenue","$"+s.adRevenue.toFixed(2)]].map(a=>'<div class="stat"><small>'+a[0]+'</small><b>'+a[1]+'</b></div>').join("");let w=await (await fetch("/api/admin/withdrawals",{headers:h})).json();withdrawals.innerHTML=w.map(x=>'<div class="row"><span><b>'+x.user+'</b> — $'+x.amount+' — '+x.status+'</span>'+(x.status==="pending"?'<span><button onclick="act(\\''+x.id+'\\',\\'paid\\')">Mark paid</button> <button onclick="act(\\''+x.id+'\\',\\'rejected\\')">Reject</button></span>':'')+'</div>').join("")||'<p class="muted">No requests.</p>'}
-async function act(id,status){await fetch("/api/admin/withdrawals/"+id,{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+localStorage.token},body:JSON.stringify({status})});load()}load();
-</script></body></html>
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Admin Dashboard — StreamTube</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+.admin-wrap{
+  max-width:1200px;
+  margin:0 auto;
+  padding:30px 20px 60px;
+}
+
+.admin-header{
+  margin-bottom:25px;
+}
+
+.admin-header h1{
+  margin:0 0 8px;
+  font-size:32px;
+}
+
+.admin-header p{
+  margin:0;
+}
+
+.admin-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:14px;
+  padding:7px 12px;
+  border-radius:20px;
+  background:#182018;
+  color:#65d98a;
+  font-size:13px;
+  font-weight:600;
+}
+
+.admin-badge span{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#35d66f;
+}
+
+.admin-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-bottom:25px;
+}
+
+.admin-stat{
+  padding:22px;
+  border:1px solid #292929;
+  border-radius:14px;
+  background:#151515;
+  box-shadow:0 8px 25px rgba(0,0,0,.18);
+}
+
+.admin-stat .icon{
+  font-size:25px;
+  margin-bottom:12px;
+}
+
+.admin-stat small{
+  display:block;
+  color:#999;
+  margin-bottom:7px;
+  font-size:13px;
+}
+
+.admin-stat strong{
+  display:block;
+  font-size:27px;
+}
+
+.admin-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.admin-card{
+  background:#151515;
+  border:1px solid #292929;
+  border-radius:14px;
+  padding:22px;
+  box-shadow:0 8px 25px rgba(0,0,0,.16);
+}
+
+.admin-card h2{
+  margin:0 0 5px;
+  font-size:20px;
+}
+
+.card-subtitle{
+  color:#888;
+  font-size:13px;
+  margin-bottom:18px;
+}
+
+.admin-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:14px 0;
+  border-bottom:1px solid #262626;
+}
+
+.admin-row:last-child{
+  border-bottom:0;
+}
+
+.admin-row-info strong{
+  display:block;
+  margin-bottom:4px;
+}
+
+.admin-row-info span{
+  color:#888;
+  font-size:13px;
+}
+
+.admin-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.admin-actions button{
+  border:0;
+  border-radius:8px;
+  padding:8px 12px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.btn-paid{
+  background:#1e8e4d;
+  color:white;
+}
+
+.btn-reject{
+  background:#8e2b2b;
+  color:white;
+}
+
+.ad-form{
+  display:grid;
+  gap:10px;
+}
+
+.ad-form input{
+  width:100%;
+}
+
+.ad-form button{
+  margin-top:5px;
+}
+
+.ad-status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:15px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.ad-active{
+  background:#183d27;
+  color:#61dc8b;
+}
+
+.ad-paused{
+  background:#3b3020;
+  color:#e9bd62;
+}
+
+.empty-state{
+  padding:25px 10px;
+  text-align:center;
+  color:#777;
+}
+
+.section-full{
+  margin-top:20px;
+}
+
+@media(max-width:850px){
+  .admin-stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .admin-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:520px){
+  .admin-wrap{
+    padding:20px 14px 40px;
+  }
+
+  .admin-header h1{
+    font-size:26px;
+  }
+
+  .admin-stats{
+    grid-template-columns:1fr;
+  }
+
+  .admin-stat strong{
+    font-size:24px;
+  }
+
+  .admin-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="/">Stream<span>Tube</span></a>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="studio.html">Studio</a>
+    <a href="upload.html">Upload</a>
+  </nav>
+</header>
+
+<main class="admin-wrap">
+
+  <div class="admin-header">
+    <h1>Admin Dashboard</h1>
+
+    <p class="muted">
+      Manage users, videos, analytics, revenue, withdrawals and advertising.
+    </p>
+
+    <div class="admin-badge">
+      <span></span>
+      Admin Control Center
+    </div>
+  </div>
+
+  <!-- STATISTICS -->
+
+  <div id="stats" class="admin-stats">
+    <div class="admin-stat">
+      <div class="icon">👥</div>
+      <small>Total Users</small>
+      <strong>—</strong>
+    </div>
+
+    <div class="admin-stat">
+      <div class="icon">🎬</div>
+      <small>Total Videos</small>
+      <strong>—</strong>
+    </div>
+
+    <div class="admin-stat">
+      <div class="icon">👁️</div>
+      <small>Total Views</small>
+      <strong>—</strong>
+    </div>
+
+    <div class="admin-stat">
+      <div class="icon">💬</div>
+      <small>Total Comments</small>
+      <strong>—</strong>
+    </div>
+
+    <div class="admin-stat">
+      <div class="icon">💳</div>
+      <small>Pending Withdrawals</small>
+      <strong>—</strong>
+    </div>
+
+    <div class="admin-stat">
+      <div class="icon">💰</div>
+      <small>Ad Revenue</small>
+      <strong>—</strong>
+    </div>
+  </div>
+
+
+  <div class="admin-grid">
+
+    <!-- WITHDRAWALS -->
+
+    <section class="admin-card">
+
+      <h2>Withdrawal Requests</h2>
+
+      <div class="card-subtitle">
+        Review creator withdrawal requests.
+      </div>
+
+      <div id="withdrawals">
+        <div class="empty-state">
+          Loading requests...
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- AD CAMPAIGNS -->
+
+    <section class="admin-card">
+
+      <h2>Ad Campaigns</h2>
+
+      <div class="card-subtitle">
+        Create and manage advertising campaigns.
+      </div>
+
+      <form class="ad-form" onsubmit="createAd(event)">
+
+        <input
+          id="adTitle"
+          placeholder="Campaign title"
+          required
+        >
+
+        <input
+          id="creativeUrl"
+          placeholder="Creative image/video URL"
+          required
+        >
+
+        <input
+          id="targetUrl"
+          placeholder="Target URL"
+          required
+        >
+
+        <input
+          id="budget"
+          type="number"
+          min="1"
+          step="0.01"
+          placeholder="Budget USD"
+          required
+        >
+
+        <input
+          id="creatorCpm"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="Creator CPM"
+          required
+        >
+
+        <input
+          id="platformCpm"
+          type="number"
+          min="0.01"
+          step="0.01"
+          placeholder="Platform CPM"
+          required
+        >
+
+        <button type="submit">
+          + Create Campaign
+        </button>
+
+      </form>
+
+    </section>
+
+  </div>
+
+
+  <!-- CAMPAIGNS -->
+
+  <section class="admin-card section-full">
+
+    <h2>Campaign Overview</h2>
+
+    <div class="card-subtitle">
+      Monitor advertising campaigns and impressions.
+    </div>
+
+    <div id="ads">
+      <div class="empty-state">
+        Loading campaigns...
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+
 <script>
-async function loadAds(){const h={Authorization:"Bearer "+localStorage.token};const r=await fetch("/api/admin/ads",{headers:h});if(!r.ok)return;const a=await r.json();ads.innerHTML=a.map(x=>`<div class="row"><span><b>${x.title}</b> — $${Number(x.remainingBudget).toFixed(2)} left — ${x.impressions} impressions</span><button onclick="toggleAd('${x.id}','${x.status==='active'?'paused':'active'}')">${x.status==='active'?'Pause':'Activate'}</button></div>`).join("")||'<p class="muted">No campaigns.</p>'}
-async function createAd(e){e.preventDefault();const h={"Content-Type":"application/json",Authorization:"Bearer "+localStorage.token};const body={title:adTitle.value,creativeUrl:creativeUrl.value,targetUrl:targetUrl.value,budget:budget.value,creatorCpm:creatorCpm.value,platformCpm:platformCpm.value};const r=await fetch('/api/admin/ads',{method:'POST',headers:h,body:JSON.stringify(body)});const x=await r.json();if(!r.ok)return alert(x.error);e.target.reset();loadAds()}
-async function toggleAd(id,status){await fetch('/api/admin/ads/'+id+'/status',{method:'POST',headers:{"Content-Type":"application/json",Authorization:"Bearer "+localStorage.token},body:JSON.stringify({status})});loadAds()}
-loadAds();
+
+let adminToken = localStorage.token || "";
+
+function authHeaders(){
+  return {
+    Authorization:"Bearer "+adminToken
+  };
+}
+
+
+/* =========================
+   LOAD ADMIN DATA
+========================= */
+
+async function load(){
+
+  if(!adminToken){
+    location="login.html";
+    return;
+  }
+
+  try{
+
+    const r = await fetch("/api/admin/stats",{
+      headers:authHeaders()
+    });
+
+    if(r.status===401 || r.status===403){
+      document.body.innerHTML=`
+        <main class="auth">
+          <div class="auth-card">
+            <h2>Admin Login Required</h2>
+            <p class="muted">
+              Please login with an administrator account.
+            </p>
+            <a class="btn wide" href="login.html">Login</a>
+          </div>
+        </main>
+      `;
+      return;
+    }
+
+    if(!r.ok){
+      throw new Error("Admin statistics could not be loaded.");
+    }
+
+    const s=await r.json();
+
+    renderStats(s);
+
+    await loadWithdrawals();
+
+    await loadAds();
+
+  }catch(error){
+
+    console.error(error);
+
+    document.getElementById("stats").innerHTML=`
+      <div class="admin-card" style="grid-column:1/-1">
+        <strong>Dashboard data could not be loaded.</strong>
+        <p class="muted">
+          Please refresh the page and try again.
+        </p>
+      </div>
+    `;
+  }
+}
+
+
+/* =========================
+   STATISTICS
+========================= */
+
+function renderStats(s){
+
+  const revenue=Number(s.adRevenue||0);
+
+  const data=[
+    ["👥","Total Users",s.users||0],
+    ["🎬","Total Videos",s.videos||0],
+    ["👁️","Total Views",s.views||0],
+    ["💬","Total Comments",s.comments||0],
+    ["💳","Pending Withdrawals",s.withdrawals||0],
+    ["💰","Ad Revenue","$"+revenue.toFixed(2)]
+  ];
+
+  document.getElementById("stats").innerHTML=data.map(x=>`
+
+    <div class="admin-stat">
+
+      <div class="icon">${x[0]}</div>
+
+      <small>${x[1]}</small>
+
+      <strong>${x[2].toLocaleString ?
+        x[2].toLocaleString() :
+        x[2]
+      }</strong>
+
+    </div>
+
+  `).join("");
+}
+
+
+/* =========================
+   WITHDRAWALS
+========================= */
+
+async function loadWithdrawals(){
+
+  const r=await fetch(
+    "/api/admin/withdrawals",
+    {headers:authHeaders()}
+  );
+
+  if(!r.ok)return;
+
+  const data=await r.json();
+
+  const box=document.getElementById("withdrawals");
+
+  if(!data.length){
+
+    box.innerHTML=`
+      <div class="empty-state">
+        No withdrawal requests yet.
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML=data.map(x=>`
+
+    <div class="admin-row">
+
+      <div class="admin-row-info">
+
+        <strong>${escapeHtml(x.user)}</strong>
+
+        <span>
+          $${Number(x.amount||0).toFixed(2)}
+          • ${escapeHtml(x.status)}
+        </span>
+
+      </div>
+
+      ${
+        x.status==="pending"
+        ?
+        `<div class="admin-actions">
+
+          <button
+            class="btn-paid"
+            onclick="act('${x.id}','paid')">
+            Mark Paid
+          </button>
+
+          <button
+            class="btn-reject"
+            onclick="act('${x.id}','rejected')">
+            Reject
+          </button>
+
+        </div>`
+        :
+        ""
+      }
+
+    </div>
+
+  `).join("");
+}
+
+
+async function act(id,status){
+
+  const r=await fetch(
+    "/api/admin/withdrawals/"+id,
+    {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:"Bearer "+adminToken
+      },
+      body:JSON.stringify({status})
+    }
+  );
+
+  if(!r.ok){
+
+    const x=await r.json().catch(()=>({}));
+
+    alert(x.error||"Action failed");
+
+    return;
+  }
+
+  load();
+}
+
+
+/* =========================
+   ADS
+========================= */
+
+async function loadAds(){
+
+  const r=await fetch(
+    "/api/admin/ads",
+    {headers:authHeaders()}
+  );
+
+  if(!r.ok)return;
+
+  const data=await r.json();
+
+  const box=document.getElementById("ads");
+
+  if(!data.length){
+
+    box.innerHTML=`
+      <div class="empty-state">
+        No advertising campaigns yet.
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML=data.map(x=>`
+
+    <div class="admin-row">
+
+      <div class="admin-row-info">
+
+        <strong>${escapeHtml(x.title)}</strong>
+
+        <span>
+          $${Number(x.remainingBudget||0).toFixed(2)}
+          remaining
+          • ${Number(x.impressions||0).toLocaleString()}
+          impressions
+        </span>
+
+        <div style="margin-top:7px">
+
+          <span class="ad-status ${
+            x.status==="active"
+            ? "ad-active"
+            : "ad-paused"
+          }">
+
+            ${x.status==="active" ? "● Active" : "● Paused"}
+
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="admin-actions">
+
+        <button
+          onclick="toggleAd(
+            '${x.id}',
+            '${x.status==='active'?'paused':'active'}'
+          )">
+
+          ${x.status==="active" ? "Pause" : "Activate"}
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+
+/* =========================
+   CREATE AD
+========================= */
+
+async function createAd(e){
+
+  e.preventDefault();
+
+  const body={
+    title:document.getElementById("adTitle").value.trim(),
+    creativeUrl:document.getElementById("creativeUrl").value.trim(),
+    targetUrl:document.getElementById("targetUrl").value.trim(),
+    budget:document.getElementById("budget").value,
+    creatorCpm:document.getElementById("creatorCpm").value,
+    platformCpm:document.getElementById("platformCpm").value
+  };
+
+  const r=await fetch(
+    "/api/admin/ads",
+    {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:"Bearer "+adminToken
+      },
+      body:JSON.stringify(body)
+    }
+  );
+
+  const x=await r.json();
+
+  if(!r.ok){
+
+    alert(x.error||"Campaign creation failed");
+
+    return;
+  }
+
+  e.target.reset();
+
+  loadAds();
+}
+
+
+/* =========================
+   TOGGLE AD
+========================= */
+
+async function toggleAd(id,status){
+
+  const r=await fetch(
+    "/api/admin/ads/"+id+"/status",
+    {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:"Bearer "+adminToken
+      },
+      body:JSON.stringify({status})
+    }
+  );
+
+  if(!r.ok){
+
+    const x=await r.json().catch(()=>({}));
+
+    alert(x.error||"Could not update campaign");
+
+    return;
+  }
+
+  loadAds();
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHtml(value){
+
+  return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* START */
+
+load();
+
 </script>
+
+</body>
+</html>
+```
