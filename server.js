@@ -408,6 +408,41 @@ app.get("/api/admin/users",auth,admin,async (req,res)=>{
   }
 });
 
+// =========================
+// ADMIN WITHDRAWALS
+// =========================
+
+app.get("/api/admin/withdrawals",auth,admin,async (req,res)=>{
+  try{
+    const d=await db();
+
+    const withdrawals=Array.isArray(d.withdrawals)
+      ? d.withdrawals
+      : [];
+
+    const users=Array.isArray(d.users)
+      ? d.users
+      : [];
+
+    const result=withdrawals.map(w=>({
+      ...w,
+      user:
+        users.find(u=>u.id===w.userId)?.username
+        || "Unknown"
+    }));
+
+    res.json(result);
+
+  }catch(error){
+
+    console.error("ADMIN WITHDRAWALS ERROR:",error);
+
+    res.status(500).json({
+      error:"Failed to load withdrawals"
+    });
+  }
+});
+
 app.post("/api/admin/withdrawals/:id",auth,admin,async (req,res)=>{
   const d=await db(),w=d.withdrawals.find(x=>x.id===req.params.id);
   if(!w)return res.status(404).json({error:"Not found"});
