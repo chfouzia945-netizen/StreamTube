@@ -329,6 +329,85 @@ app.post('/api/admin/ads/:id/status',auth,admin,async (req,res)=>{
   const status=['active','paused'].includes(req.body.status)?req.body.status:a.status; a.status=status; save(d); res.json(a);
 });
 
+// =========================
+// ADMIN STATISTICS
+// =========================
+
+app.get("/api/admin/stats",auth,admin,async (req,res)=>{
+  try{
+    const d=await db();
+
+    const users=Array.isArray(d.users) ? d.users : [];
+    const videos=Array.isArray(d.videos) ? d.videos : [];
+    const comments=Array.isArray(d.comments) ? d.comments : [];
+    const withdrawals=Array.isArray(d.withdrawals) ? d.withdrawals : [];
+    const earnings=Array.isArray(d.earnings) ? d.earnings : [];
+
+    const views=videos.reduce(
+      (total,v)=>total+Number(v.views||0),
+      0
+    );
+
+    const pendingWithdrawals=withdrawals.filter(
+      w=>w.status==="pending"
+    ).length;
+
+    const adRevenue=earnings.reduce(
+      (total,e)=>total+Number(e.amount||0),
+      0
+    );
+
+    res.json({
+      users:users.length,
+      videos:videos.length,
+      views:views,
+      comments:comments.length,
+      withdrawals:pendingWithdrawals,
+      adRevenue:adRevenue
+    });
+
+  }catch(error){
+
+    console.error("ADMIN STATS ERROR:",error);
+
+    res.status(500).json({
+      error:"Failed to load admin statistics"
+    });
+  }
+});
+
+
+// =========================
+// ADMIN USERS
+// =========================
+
+app.get("/api/admin/users",auth,admin,async (req,res)=>{
+  try{
+    const d=await db();
+
+    const users=(Array.isArray(d.users)?d.users:[]).map(u=>({
+      id:u.id,
+      username:u.username,
+      email:u.email,
+      role:u.role||"creator",
+      createdAt:u.createdAt||null,
+      videos:(Array.isArray(d.videos)?d.videos:[])
+        .filter(v=>v.creatorId===u.id)
+        .length
+    }));
+
+    res.json(users);
+
+  }catch(error){
+
+    console.error("ADMIN USERS ERROR:",error);
+
+    res.status(500).json({
+      error:"Failed to load users"
+    });
+  }
+});
+
 app.post("/api/admin/withdrawals/:id",auth,admin,async (req,res)=>{
   const d=await db(),w=d.withdrawals.find(x=>x.id===req.params.id);
   if(!w)return res.status(404).json({error:"Not found"});
