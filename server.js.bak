@@ -1,0 +1,210 @@
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const crypto = require("crypto");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const ROOT = __dirname;
+const DATA = path.join(ROOT, "data", "db.json");
+const UPLOADS = path.join(ROOT, "uploads");
+const SECRET = process.env.JWT_SECRET || "change-this-secret-in-production";
+if (process.env.NODE_ENV === "production" && SECRET === "change-this-secret-in-production") {
+  throw new Error("JWT_SECRET must be set in production");
+}
+
+if (!fs.existsSync(path.dirname(DATA))) fs.mkdirSync(path.dirname(DATA), {recursive:true});
+if (!fs.existsSync(UPLOADS)) fs.mkdirSync(UPLOADS, {recursive:true});
+
+const initial = {
+  users: [{
+    id:"u_admin", username:"admin", email:"admin@streamtube.local",
+    password:bcrypt.hashSync("Admin123!",10), role:"admin", createdAt:new Date().toISOString()
+  }],
+  videos: [
+    {id:"v1",title:"Beautiful Places of Pakistan",description:"Explore beautiful places across Pakistan.",category:"Travel",creatorId:"u_demo",creatorName:"Pakistan Travel",views:125000,likes:3200,createdAt:new Date(Date.now()-172800000).toISOString(),duration:"12:45",thumbnail:"",status:"published"},
+    {id:"v2",title:"Best Gaming Highlights",description:"Gaming highlights and entertainment.",category:"Gaming",creatorId:"u_demo",creatorName:"Gaming Zone",views:98000,likes:2500,createdAt:new Date(Date.now()-86400000).toISOString(),duration:"18:20",thumbnail:"",status:"published"},
+    {id:"v3",title:"Learn Something New Today",description:"Simple educational videos.",category:"Education",creatorId:"u_demo",creatorName:"Learn Academy",views:61000,likes:1800,createdAt:new Date(Date.now()-18000000).toISOString(),duration:"09:18",thumbnail:"",status:"published"}
+  ],
+  subscriptions:[], comments:[], reports:[], earnings:[], withdrawals:[], ads:[]
+};
+if (!fs.existsSync(DATA)) fs.writeFileSync(DATA, JSON.stringify(initial,null,2));
+
+function db(){ return JSON.parse(fs.readFileSync(DATA,"utf8")); }
+function save(d){ fs.writeFileSync(DATA, JSON.stringify(d,null,2)); }
+function id(p){ return p+"_"+Date.now()+"_"+Math.random().toString(36).slice(2,8); }
+function auth(req,res,next){
+  const h=req.headers.authorization||"";
+  if(!h.startsWith("Bearer ")) return res.status(401).json({error:"Login required"});
+  try { req.user=jwt.verify(h.slice(7),SECRET); next(); } catch(e){res.status(401).json({error:"Invalid session"});}
+}
+function optionalAuth(req,res,next){
+  const h=req.headers.authorization||"";
+  if(h.startsWith("Bearer ")){ try{req.user=jwt.verify(h.slice(7),SECRET)}catch(e){} }
+  next();
+}
+function admin(req,res,next){ if(req.user?.role!=="admin") return res.status(403).json({error:"Admin only"}); next(); }
+
+const storage=multer.diskStorage({
+  destination:(req,file,cb)=>cb(null,UPLOADS),
+  filename:(req,file,cb)=>cb(null, Date.now()+"_"+file.originalname.replace(/[^a-zA-Z0-9._-]/g,"_"))
+});
+const ALLOWED_VIDEO = new Set(["video/mp4","video/webm","video/quicktime","video/x-matroska"]);
+const ALLOWED_IMAGE = new Set(["image/jpeg","image/png","image/webp"]);
+const upload=multer({storage,limits:{fileSize:1024*1024*1024},fileFilter:(req,file,cb)=>{
+  const ok = file.fieldname === "video" ? ALLOWED_VIDEO.has(file.mimetype) : file.fieldname === "thumbnail" ? ALLOWED_IMAGE.has(file.mimetype) : false;
+  cb(ok ? null : new Error("Unsupported file type"), ok);
+}});
+
+app.use(express.json({limit:"2mb"}));
+app.disable("x-powered-by");
+app.use((req,res,next)=>{
+  res.setHeader("X-Content-Type-Options","nosniff");
+  res.setHeader("X-Frame-Options","SAMEORIGIN");
+  res.setHeader("Referrer-Policy","strict-origin-when-cross-origin");
+  next();
+});
+app.use(express.urlencoded({extended:true}));
+app.use("/uploads",express.static(UPLOADS));
+app.use(express.static(path.join(ROOT,"public")));
+
+app.post("/api/register", async (req,res)=>{
+  const {username,email,password}=req.body;
+  const cleanUsername=String(username||"").trim();
+  const cleanEmail=String(email||"").trim().toLowerCase();
+  if(!cleanUsername||!cleanEmail||!password||password.length<8) return res.status(400).json({error:"Username, email and 6+ character password required"});
+  const d=db();
+  if(d.users.some(u=>u.email.toLowerCase()===cleanEmail||u.username.toLowerCase()===cleanUsername.toLowerCase())) return res.status(409).json({error:"Username or email already exists"});
+  const u={id:id("u"),username:cleanUsername,email:cleanEmail,password:bcrypt.hashSync(password,10),role:"creator",createdAt:new Date().toISOString()};
+  d.users.push(u); save(d);
+  const token=jwt.sign({id:u.id,username:u.username,role:u.role},SECRET,{expiresIn:"7d"});
+  res.json({token,user:{id:u.id,username:u.username,email:u.email,role:u.role}});
+});
+
+app.post("/api/login",(req,res)=>{
+  const d=db(), {email,password}=req.body;
+  const u=d.users.find(x=>x.email.toLowerCase()===String(email||"").toLowerCase());
+  if(!u||!bcrypt.compareSync(password||"",u.password)) return res.status(401).json({error:"Wrong email or password"});
+  const token=jwt.sign({id:u.id,username:u.username,role:u.role},SECRET,{expiresIn:"7d"});
+  res.json({token,user:{id:u.id,username:u.username,email:u.email,role:u.role}});
+});
+
+app.get("/api/me",auth,(req,res)=>{
+  const d=db(),u=d.users.find(x=>x.id===req.user.id);
+  if(!u)return res.status(404).json({error:"User not found"});
+  res.json({id:u.id,username:u.username,email:u.email,role:u.role});
+});
+
+app.get("/api/videos",(req,res)=>{
+  const d=db(); let v=d.videos.filter(x=>x.status==="published");
+  const q=String(req.query.q||"").toLowerCase(), cat=String(req.query.category||"");
+  if(q)v=v.filter(x=>(x.title+" "+x.description+" "+x.creatorName+" "+x.category).toLowerCase().includes(q));
+  if(cat)v=v.filter(x=>x.category===cat);
+  v.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  res.json(v);
+});
+
+app.get("/api/videos/:id",(req,res)=>{
+  const d=db(),v=d.videos.find(x=>x.id===req.params.id);
+  if(!v)return res.status(404).json({error:"Video not found"});
+  res.json(v);
+});
+
+app.post("/api/videos/:id/view",(req,res)=>{
+  const d=db(),v=d.videos.find(x=>x.id===req.params.id);
+  if(!v)return res.status(404).json({error:"Video not found"});
+  v.views=(v.views||0)+1; save(d); res.json({views:v.views});
+});
+
+app.post("/api/videos/:id/like",auth,(req,res)=>{
+  const d=db(),v=d.videos.find(x=>x.id===req.params.id);
+  if(!v)return res.status(404).json({error:"Video not found"});
+  v.likes=(v.likes||0)+1; save(d); res.json({likes:v.likes});
+});
+
+app.post("/api/videos/:id/comments",auth,(req,res)=>{
+  const d=db(), body=String(req.body.body||"").trim();
+  if(!body)return res.status(400).json({error:"Comment required"});
+  const c={id:id("c"),videoId:req.params.id,userId:req.user.id,username:req.user.username,body,createdAt:new Date().toISOString()};
+  d.comments.push(c); save(d); res.json(c);
+});
+app.get("/api/videos/:id/comments",(req,res)=>{
+  const d=db(); res.json(d.comments.filter(c=>c.videoId===req.params.id).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)));
+});
+
+app.post("/api/videos/:id/subscribe",auth,(req,res)=>{
+  const d=db(); const v=d.videos.find(x=>x.id===req.params.id);
+  if(!v)return res.status(404).json({error:"Video not found"});
+  if(v.creatorId===req.user.id)return res.status(400).json({error:"You cannot subscribe to yourself"});
+  if(!d.subscriptions.some(s=>s.userId===req.user.id&&s.creatorId===v.creatorId)){
+    d.subscriptions.push({id:id("s"),userId:req.user.id,creatorId:v.creatorId,createdAt:new Date().toISOString()}); save(d);
+  }
+  res.json({subscribed:true});
+});
+
+app.post("/api/upload",auth,upload.fields([{name:"video",maxCount:1},{name:"thumbnail",maxCount:1}]),(req,res)=>{
+  if(!req.files?.video?.[0]) return res.status(400).json({error:"Video file required"});
+  const d=db(), f=req.files.video[0], t=req.files.thumbnail?.[0];
+  const v={id:id("v"),title:req.body.title||f.originalname,description:req.body.description||"",category:req.body.category||"Entertainment",
+    creatorId:req.user.id,creatorName:req.user.username,views:0,likes:0,createdAt:new Date().toISOString(),
+    duration:"",thumbnail:t?"/uploads/"+t.filename:"",videoUrl:"/uploads/"+f.filename,status:"published"};
+  d.videos.push(v); save(d); res.json(v);
+});
+
+app.get("/api/studio",auth,(req,res)=>{
+  const d=db(), vids=d.videos.filter(v=>v.creatorId===req.user.id);
+  const subs=d.subscriptions.filter(s=>s.creatorId===req.user.id).length;
+  const views=vids.reduce((n,v)=>n+(v.views||0),0);
+  const likes=vids.reduce((n,v)=>n+(v.likes||0),0);
+  const er=d.earnings.filter(e=>e.creatorId===req.user.id).reduce((n,e)=>n+e.amount,0);
+  res.json({videos:vids,subscribers:subs,views,likes,earnings:er});
+});
+
+app.post("/api/withdraw",auth,(req,res)=>{
+  const amount=Number(req.body.amount||0);
+  if(amount<10)return res.status(400).json({error:"Minimum withdrawal is $10 in this demo"});
+  const d=db(); d.withdrawals.push({id:id("w"),userId:req.user.id,amount,status:"pending",createdAt:new Date().toISOString()}); save(d);
+  res.json({message:"Withdrawal request submitted"});
+});
+
+app.get("/api/creator/earnings",auth,(req,res)=>{
+  const d=db();
+  const rows=d.earnings.filter(e=>e.creatorId===req.user.id);
+  const total=rows.reduce((n,e)=>n+Number(e.amount||0),0);
+  const paid=d.withdrawals.filter(w=>w.userId===req.user.id&&w.status==="paid").reduce((n,w)=>n+Number(w.amount||0),0);
+  res.json({total,paid,available:Math.max(0,total-paid),ledger:rows});
+});
+
+app.get("/api/admin/stats",auth,admin,(req,res)=>{
+  const d=db();
+  res.json({
+    users:d.users.length,videos:d.videos.length,views:d.videos.reduce((n,v)=>n+(v.views||0),0),
+    comments:d.comments.length,withdrawals:d.withdrawals.filter(w=>w.status==="pending").length,
+    adRevenue:d.earnings.reduce((n,e)=>n+e.amount,0)
+  });
+});
+app.get("/api/admin/withdrawals",auth,admin,(req,res)=>{
+  const d=db(); res.json(d.withdrawals.map(w=>({...w,user:d.users.find(u=>u.id===w.userId)?.username||"Unknown"})));
+});
+app.post("/api/admin/withdrawals/:id",auth,admin,(req,res)=>{
+  const d=db(),w=d.withdrawals.find(x=>x.id===req.params.id);
+  if(!w)return res.status(404).json({error:"Not found"});
+  w.status=req.body.status==="paid"?"paid":"rejected"; save(d); res.json(w);
+});
+
+app.post("/api/report",optionalAuth,(req,res)=>{
+  const d=db(); d.reports.push({id:id("r"),videoId:req.body.videoId||"",reason:req.body.reason||"Other",userId:req.user?.id||null,createdAt:new Date().toISOString()}); save(d);
+  res.json({message:"Report received"});
+});
+
+app.get("/api/health",(req,res)=>res.json({ok:true,service:"StreamTube"}));
+app.use((err,req,res,next)=>{
+  if(err && err.message === "Unsupported file type") return res.status(400).json({error:err.message});
+  console.error(err);
+  res.status(500).json({error:"Internal server error"});
+});
+app.get("*",(req,res)=>res.sendFile(path.join(ROOT,"public","index.html")));
+app.listen(PORT,()=>console.log("StreamTube running on "+PORT));

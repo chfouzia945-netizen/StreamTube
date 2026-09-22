@@ -1,0 +1,19 @@
+{
+  "name": "streamtube-complete",
+  "version": "2.0.0",
+  "private": true,
+  "description": "StreamTube production-ready video platform with PostgreSQL, HLS, monetization and creator earnings.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.16.3",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0"
+  }
+}
