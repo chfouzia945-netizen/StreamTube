@@ -7,43 +7,4 @@
 </nav></header>
 <div class="layout"><aside><a class="active" href="/">🏠 Home</a><a href="?sort=trending">🔥 Trending</a><a href="?sort=latest">🆕 Latest</a><a href="?category=Music">🎵 Music</a><a href="?category=Gaming">🎮 Gaming</a><a href="?category=Education">📚 Education</a><a href="?category=Entertainment">🎬 Entertainment</a><a href="?category=Travel">✈️ Travel</a><hr><b>Why StreamTube?</b><p class="muted">Upload videos, grow your channel and build a creator business.</p></aside>
 <main><section class="hero"><div><span class="pill">CREATOR PLATFORM</span><h1>Watch. Create. Grow.</h1><p>Stream videos, build your channel and manage your creator journey from one place.</p><a class="btn" href="upload.html">Start Uploading</a></div></section><div class="section-head"><h2 id="heading">Recommended videos</h2><span id="count" class="muted"></span></div><div id="grid" class="grid"></div></main></div>
-<script src="app.js"></script> <script>
-async function checkAdminAccess(){
-
-  const adminLink =
-    document.getElementById("adminLink");
-
-  if(!adminLink) return;
-
-  try{
-
-    const response =
-      await fetch("/api/me", {
-        credentials: "include"
-      });
-
-    if(!response.ok){
-      adminLink.style.display = "none";
-      return;
-    }
-
-    const user = await response.json();
-
-    if(user && user.role === "admin"){
-      adminLink.style.display = "inline-block";
-    }else{
-      adminLink.style.display = "none";
-    }
-
-  }catch(error){
-
-    console.error("Admin check failed:", error);
-
-    adminLink.style.display = "none";
-
-  }
-
-}
-
-checkAdminAccess();
-</script> </body></html>
+<script src="app.js"></script></body></html>
