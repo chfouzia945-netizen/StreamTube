@@ -1,25 +1,13 @@
 <!doctype html>
+
 <html lang="en">
-
 <head>
-
 <meta charset="utf-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admin Dashboard — StreamTube</title>
-
 <link rel="stylesheet" href="style.css">
 
 <style>
-
-/* =====================================================
-   STREAMTUBE PROFESSIONAL ADMIN DASHBOARD
-===================================================== */
-
 .admin-page{
   max-width:1250px;
   margin:0 auto;
@@ -41,7 +29,7 @@
   margin:0 0 8px;
   font-size:36px;
   line-height:1.2;
-  letter-spacing:-0.6px;
+  letter-spacing:-.6px;
 }
 
 .admin-header p{
@@ -49,9 +37,9 @@
   font-size:15px;
 }
 
-/* =====================================================
-   STATISTICS
-===================================================== */
+/* ================================
+   STATS
+================================ */
 
 .stats-grid{
   display:grid;
@@ -71,10 +59,7 @@
   display:flex;
   align-items:center;
   gap:15px;
-  transition:
-    transform .18s ease,
-    border-color .18s ease,
-    box-shadow .18s ease;
+  transition:.18s ease;
 }
 
 .stat-card:hover{
@@ -117,9 +102,9 @@
   font-weight:800;
 }
 
-/* =====================================================
-   ADMIN CARDS
-===================================================== */
+/* ================================
+   CARDS
+================================ */
 
 .admin-card{
   background:var(--panel);
@@ -127,10 +112,6 @@
   border-radius:16px;
   padding:24px;
   margin-bottom:20px;
-}
-
-.section-full{
-  width:100%;
 }
 
 .admin-grid{
@@ -144,9 +125,13 @@
   margin-bottom:0;
 }
 
-/* =====================================================
-   SECTION HEADERS
-===================================================== */
+.section-full{
+  width:100%;
+}
+
+/* ================================
+   HEADERS
+================================ */
 
 .section-head{
   display:flex;
@@ -168,11 +153,19 @@
   line-height:1.5;
 }
 
-/* =====================================================
-   SEARCH
-===================================================== */
+/* ================================
+   SEARCH TOOLBAR
+================================ */
+
+.user-toolbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
 
 .admin-search{
+  flex:1;
   width:100%;
   min-height:43px;
   padding:10px 13px;
@@ -182,8 +175,7 @@
   border-radius:9px;
   outline:none;
   font-size:13px;
-  margin-bottom:10px;
-  transition:border-color .15s ease,background .15s ease;
+  transition:.15s ease;
 }
 
 .admin-search::placeholder{
@@ -195,19 +187,19 @@
   background:#10151a;
 }
 
-/* =====================================================
+.user-count{
+  flex:0 0 auto;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+
+/* ================================
    BUTTONS
-===================================================== */
+================================ */
 
 .admin-page .btn{
   white-space:nowrap;
-}
-
-.admin-row-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
 }
 
 .action-btn{
@@ -217,14 +209,18 @@
   font-size:12px;
   font-weight:700;
   cursor:pointer;
-  transition:
-    transform .18s ease,
-    opacity .18s ease;
+  transition:.18s ease;
 }
 
 .action-btn:hover{
   transform:translateY(-1px);
   opacity:.9;
+}
+
+.action-btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
 }
 
 .view-btn{
@@ -259,145 +255,22 @@
   border-radius:8px;
 }
 
-/* =====================================================
-   ADMIN ROWS
-===================================================== */
+/* ================================
+   USER ROW
+================================ */
 
 .admin-row{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:20px;
-  padding:16px 0;
+  padding:17px 0;
   border-bottom:1px solid var(--line);
 }
 
 .admin-row:last-child{
   border-bottom:0;
 }
-
-.admin-row-info{
-  min-width:0;
-  flex:1;
-}
-
-.admin-row-info strong{
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:6px;
-  font-size:15px;
-  line-height:1.4;
-  font-weight:700;
-}
-
-.user-email{
-  color:#aeb6bf;
-  font-size:13px;
-  margin-top:5px;
-  word-break:break-word;
-}
-
-.user-meta{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:6px;
-  line-height:1.5;
-}
-
-/* =====================================================
-   USER AVATAR
-===================================================== */
-
-.user-main{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  min-width:0;
-}
-
-.user-avatar{
-  width:44px;
-  height:44px;
-  flex:0 0 44px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  background:#1d242b;
-  border:1px solid #3a434d;
-  color:#fff;
-  font-size:15px;
-  font-weight:800;
-  text-transform:uppercase;
-}
-
-.user-details{
-  min-width:0;
-}
-
-/* =====================================================
-   USER ROLE
-===================================================== */
-
-.user-role{
-  display:inline-flex;
-  align-items:center;
-  padding:4px 8px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-  vertical-align:middle;
-  letter-spacing:.4px;
-}
-
-.user-admin{
-  background:#3b2418;
-  color:#ffb36b;
-}
-
-.user-creator{
-  background:#182d3d;
-  color:#65b9ff;
-}
-
-/* =====================================================
-   USER ACCOUNT STATUS
-===================================================== */
-
-.user-status{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:4px 8px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.4px;
-}
-
-.user-status-dot{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:currentColor;
-}
-
-.user-active{
-  background:#183522;
-  color:#71d98b;
-}
-
-.user-disabled{
-  background:#3b1d1d;
-  color:#ff7777;
-}
-
-/* =====================================================
-   USER ACTIONS
-===================================================== */
 
 .user-management{
   display:flex;
@@ -420,47 +293,102 @@
   flex-wrap:wrap;
 }
 
+.user-main{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-width:0;
+}
+
+.user-avatar{
+  width:46px;
+  height:46px;
+  flex:0 0 46px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#1d242b;
+  border:1px solid #3a434d;
+  color:#fff;
+  font-size:15px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.user-details{
+  min-width:0;
+}
+
+.user-details strong{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px;
+  font-size:15px;
+  line-height:1.4;
+}
+
+.user-email{
+  color:#aeb6bf;
+  font-size:13px;
+  margin-top:5px;
+  word-break:break-word;
+}
+
+.user-meta{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:7px;
+  line-height:1.5;
+}
+
 .user-extra{
   display:flex;
   align-items:center;
   flex-wrap:wrap;
   gap:7px;
-  margin-top:8px;
+  margin-top:7px;
 }
 
-/* =====================================================
-   VIDEO THUMBNAIL
-===================================================== */
+/* ================================
+   BADGES
+================================ */
 
-.video-mini{
-  width:52px;
-  height:38px;
-  flex:0 0 52px;
-  border-radius:7px;
-  background:#151a1f;
-  border:1px solid #303740;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:16px;
-}
-
-/* =====================================================
-   STATUS BADGES
-===================================================== */
-
-.status-badge{
+.user-role,
+.user-status,
+.status-badge,
+.campaign-status{
   display:inline-flex;
   align-items:center;
   gap:5px;
-  padding:5px 9px;
   border-radius:20px;
-  font-size:10px;
   font-weight:800;
   text-transform:uppercase;
   letter-spacing:.4px;
 }
 
+.user-role{
+  padding:4px 8px;
+  font-size:10px;
+}
+
+.user-admin{
+  background:#3b2418;
+  color:#ffb36b;
+}
+
+.user-creator{
+  background:#182d3d;
+  color:#65b9ff;
+}
+
+.user-status{
+  padding:4px 8px;
+  font-size:10px;
+}
+
+.user-status-dot,
 .status-dot{
   width:6px;
   height:6px;
@@ -468,45 +396,42 @@
   background:currentColor;
 }
 
-.status-pending{
-  background:#302b18;
-  color:#e7c766;
-}
-
-.status-paid{
+.user-active{
   background:#183522;
   color:#71d98b;
 }
 
-.status-rejected{
+.user-disabled{
   background:#3b1d1d;
   color:#ff7777;
 }
 
-/* =====================================================
-   CAMPAIGN STATUS
-===================================================== */
+/* ================================
+   WITHDRAWAL / CAMPAIGNS
+================================ */
 
+.status-badge,
 .campaign-status{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
   padding:5px 9px;
-  border-radius:20px;
   font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.4px;
 }
 
+.status-pending,
+.campaign-paused{
+  background:#302b18;
+  color:#e7c766;
+}
+
+.status-paid,
 .campaign-active{
   background:#183522;
   color:#71d98b;
 }
 
-.campaign-paused{
-  background:#302b18;
-  color:#e7c766;
+.status-rejected,
+.campaign-rejected{
+  background:#3b1d1d;
+  color:#ff7777;
 }
 
 .campaign-draft{
@@ -514,24 +439,15 @@
   color:#aeb6bf;
 }
 
-.campaign-rejected{
-  background:#3b1d1d;
-  color:#ff7777;
-}
-
 .campaign-title{
   font-weight:700;
 }
-
-/* =====================================================
-   CAMPAIGN DETAILS
-===================================================== */
 
 .campaign-details{
   display:flex;
   flex-wrap:wrap;
   gap:7px 14px;
-  margin-top:7px;
+  margin-top:8px;
   color:var(--muted);
   font-size:12px;
   line-height:1.5;
@@ -541,32 +457,14 @@
   white-space:nowrap;
 }
 
-/* =====================================================
-   EMPTY STATES
-===================================================== */
-
-.empty-state{
-  padding:30px 18px;
-  text-align:center;
-  color:var(--muted);
-  background:#0e1216;
-  border:1px dashed #303740;
-  border-radius:10px;
-  font-size:13px;
-}
-
-/* =====================================================
-   AD CAMPAIGN FORM
-===================================================== */
+/* ================================
+   FORMS
+================================ */
 
 #adForm{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:15px 14px;
-}
-
-#adForm > div{
-  min-width:0;
 }
 
 #adForm label{
@@ -587,7 +485,6 @@
   border:1px solid #303740;
   border-radius:8px;
   outline:none;
-  transition:border-color .15s ease,background .15s ease;
 }
 
 #adForm input::placeholder{
@@ -605,18 +502,23 @@
   margin-top:2px;
 }
 
-/* =====================================================
-   CAMPAIGN LIST
-===================================================== */
+/* ================================
+   EMPTY
+================================ */
 
-#ads,
-#campaignOverview{
-  margin-top:4px;
+.empty-state{
+  padding:30px 18px;
+  text-align:center;
+  color:var(--muted);
+  background:#0e1216;
+  border:1px dashed #303740;
+  border-radius:10px;
+  font-size:13px;
 }
 
-/* =====================================================
-   OVERVIEW BOX
-===================================================== */
+/* ================================
+   OVERVIEW
+================================ */
 
 .overview-summary{
   display:grid;
@@ -643,9 +545,9 @@
   font-size:17px;
 }
 
-/* =====================================================
+/* ================================
    MOBILE
-===================================================== */
+================================ */
 
 @media(max-width:900px){
 
@@ -666,7 +568,6 @@
     width:100%;
     justify-content:flex-start;
   }
-
 }
 
 @media(max-width:600px){
@@ -718,6 +619,15 @@
     width:100%;
   }
 
+  .user-toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .user-count{
+    text-align:right;
+  }
+
   .admin-row{
     align-items:flex-start;
     flex-direction:column;
@@ -728,12 +638,16 @@
     width:100%;
   }
 
-  .user-management-right .action-btn{
+  .user-management-right .action-btn,
+  .user-management-right .admin-protected{
     flex:1;
+    justify-content:center;
+    text-align:center;
   }
 
   .admin-row-actions{
     width:100%;
+    display:flex;
   }
 
   .admin-row-actions .btn{
@@ -756,226 +670,100 @@
   .overview-summary{
     grid-template-columns:1fr;
   }
-
 }
-
 </style>
 
 </head>
 
 <body>
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <header>
-
-  <a class="logo" href="/">
-    Stream<span>Tube</span>
-  </a>
+  <a class="logo" href="/">Stream<span>Tube</span></a>
 
   <nav>
-
-    <a href="/">
-      Home
-    </a>
-
-    <a href="studio.html">
-      Studio
-    </a>
-
-    <a href="upload.html">
-      Upload
-    </a>
-
-    <a
-      href="#"
-      onclick="logout();return false;"
-    >
-      Logout
-    </a>
-
+    <a href="/">Home</a>
+    <a href="studio.html">Studio</a>
+    <a href="upload.html">Upload</a>
+    <a href="#" onclick="logout();return false;">Logout</a>
   </nav>
-
 </header>
-
-<!-- =====================================================
-     MAIN ADMIN PAGE
-===================================================== -->
 
 <main class="admin-page">
 
-  <!-- PAGE HEADER -->
+<section class="admin-header">
+  <span class="pill">🛡️ ADMIN PANEL</span>
 
-  <section class="admin-header">
+  <h1>StreamTube Admin Dashboard</h1>
 
-    <span class="pill">
-      🛡️ ADMIN PANEL
-    </span>
+  <p class="muted">
+    Manage users, videos, withdrawals and advertising from one place.
+  </p>
+</section>
 
-    <h1>
-      StreamTube Admin Dashboard
-    </h1>
+<section id="stats" class="stats-grid">
 
-    <p class="muted">
-      Manage users, videos, withdrawals and advertising from one place.
-    </p>
+  <div class="stat-card">
+    <div class="stat-icon">👥</div>
+    <div class="stat-content">
+      <span class="stat-label">Total Users</span>
+      <strong id="usersCount">—</strong>
+    </div>
+  </div>
 
-  </section>
+  <div class="stat-card">
+    <div class="stat-icon">🎬</div>
+    <div class="stat-content">
+      <span class="stat-label">Total Videos</span>
+      <strong id="videosCount">—</strong>
+    </div>
+  </div>
 
-  <!-- =================================================
-       STATISTICS
-  ================================================== -->
+  <div class="stat-card">
+    <div class="stat-icon">👁️</div>
+    <div class="stat-content">
+      <span class="stat-label">Total Views</span>
+      <strong id="viewsCount">—</strong>
+    </div>
+  </div>
 
-  <section
-    id="stats"
-    class="stats-grid"
-  >
+  <div class="stat-card">
+    <div class="stat-icon">💬</div>
+    <div class="stat-content">
+      <span class="stat-label">Total Comments</span>
+      <strong id="commentsCount">—</strong>
+    </div>
+  </div>
 
-    <div class="stat-card">
+  <div class="stat-card">
+    <div class="stat-icon">💳</div>
+    <div class="stat-content">
+      <span class="stat-label">Pending Withdrawals</span>
+      <strong id="withdrawalsCount">—</strong>
+    </div>
+  </div>
 
-      <div class="stat-icon">
-        👥
+  <div class="stat-card">
+    <div class="stat-icon">💰</div>
+    <div class="stat-content">
+      <span class="stat-label">Ad Revenue</span>
+      <strong id="adRevenue">$0.00</strong>
+    </div>
+  </div>
+
+</section>
+
+<section class="admin-card section-full">
+
+  <div class="section-head">
+    <div>
+      <h2>👥 Users Management</h2>
+      <div class="card-subtitle">
+        View registered users, account roles and uploaded videos.
       </div>
-
-      <div class="stat-content">
-
-        <span class="stat-label">
-          Total Users
-        </span>
-
-        <strong id="usersCount">
-          —
-        </strong>
-
-      </div>
-
     </div>
 
-    <div class="stat-card">
-
-      <div class="stat-icon">
-        🎬
-      </div>
-
-      <div class="stat-content">
-
-        <span class="stat-label">
-          Total Videos
-        </span>
-
-        <strong id="videosCount">
-          —
-        </strong>
-
-      </div>
-
-    </div>
-
-    <div class="stat-card">
-
-      <div class="stat-icon">
-        👁️
-      </div>
-
-      <div class="stat-content">
-
-        <span class="stat-label">
-          Total Views
-        </span>
-
-        <strong id="viewsCount">
-          —
-        </strong>
-
-      </div>
-
-    </div>
-
-    <div class="stat-card">
-
-      <div class="stat-icon">
-        💬
-      </div>
-
-      <div class="stat-content">
-
-        <span class="stat-label">
-          Total Comments
-        </span>
-
-        <strong id="commentsCount">
-          —
-        </strong>
-
-      </div>
-
-    </div>
-
-    <div class="stat-card">
-
-      <div class="stat-icon">
-        💳
-      </div>
-
-      <div class="stat-content">
-
-        <span class="stat-label">
-          Pending Withdrawals
-        </span>
-
-        <strong id="withdrawalsCount">
-          —
-        </strong>
-
-      </div>
-
-    </div>
-
-    <div class="stat-card">
-
-      <div class="stat-icon">
-        💰
-      </div>
-
-      <div class="stat-content">
-
-        <span class="stat-label">
-          Ad Revenue
-        </span>
-
-        <strong id="adRevenue">
-          $0.00
-        </strong>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- =================================================
-       USERS MANAGEMENT
-  ================================================== -->
-
-  <section class="admin-card section-full">
-
-    <div class="section-head">
-
-      <div>
-
-        <h2>
-          👥 Users Management
-        </h2>
-
-        <div class="card-subtitle">
-          View registered users, account roles and uploaded videos.
-        </div>
-
-      </div>
-
-    <button
+```
+<button
   id="refreshUsersBtn"
   class="btn"
   onclick="refreshUsers()"
@@ -983,331 +771,212 @@
 >
   ↻ Refresh Users
 </button>
-    </div>
-
-    <input
-      id="userSearch"
-      class="admin-search"
-      type="search"
-      placeholder="Search users by username or email..."
-      oninput="filterUsers()"
-    >
-
-    <div id="users">
-
-      <div class="empty-state">
-        Loading users...
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- =================================================
-       WITHDRAWALS + AD CAMPAIGNS
-  ================================================== -->
-
-  <div class="admin-grid">
-
-    <!-- WITHDRAWAL REQUESTS -->
-
-    <section class="admin-card">
-
-      <div class="section-head">
-
-        <div>
-
-          <h2>
-            💳 Withdrawal Requests
-          </h2>
-
-          <div class="card-subtitle">
-            Review creator withdrawal requests and payment status.
-          </div>
-
-        </div>
-
-      </div>
-
-      <div id="withdrawals">
-
-        <div class="empty-state">
-          Loading withdrawals...
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- AD CAMPAIGNS -->
-
-    <section class="admin-card">
-
-      <div class="section-head">
-
-        <div>
-
-          <h2>
-            📢 Ad Campaigns
-          </h2>
-
-          <div class="card-subtitle">
-            Create and manage advertising campaigns.
-          </div>
-
-        </div>
-
-      </div>
-
-      <form
-        id="adForm"
-        onsubmit="createAd(event)"
-      >
-
-        <div>
-
-          <label>
-            Campaign Name
-          </label>
-
-          <input
-            id="adTitle"
-            placeholder="e.g. Summer Promotion"
-            required
-          >
-
-        </div>
-
-        <div>
-
-          <label>
-            Creative URL
-          </label>
-
-          <input
-            id="creativeUrl"
-            placeholder="https://example.com/banner.jpg"
-            required
-          >
-
-        </div>
-
-        <div>
-
-          <label>
-            Target URL
-          </label>
-
-          <input
-            id="targetUrl"
-            placeholder="https://example.com"
-            required
-          >
-
-        </div>
-
-        <div>
-
-          <label>
-            Total Budget (USD)
-          </label>
-
-          <input
-            id="adBudget"
-            type="number"
-            min="1"
-            step="0.01"
-            placeholder="100"
-            required
-          >
-
-        </div>
-
-        <div>
-
-          <label>
-            Creator CPM (USD)
-          </label>
-
-          <input
-            id="creatorCpm"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="2"
-            required
-          >
-
-        </div>
-
-        <div>
-
-          <label>
-            Platform CPM (USD)
-          </label>
-
-          <input
-            id="platformCpm"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="1"
-            required
-          >
-
-        </div>
-
-        <button
-          class="btn wide"
-          type="submit"
-        >
-          + Create Campaign
-        </button>
-
-      </form>
-
-      <div id="ads">
-
-        <div class="empty-state">
-          Loading campaigns...
-        </div>
-
-      </div>
-
-    </section>
+```
 
   </div>
 
-  <!-- =================================================
-       CAMPAIGN OVERVIEW
-  ================================================== -->
+  <div class="user-toolbar">
 
-  <section class="admin-card section-full">
+```
+<input
+  id="userSearch"
+  class="admin-search"
+  type="search"
+  placeholder="Search users by username or email..."
+  oninput="filterUsers()"
+>
 
-    <div class="section-head">
+<span id="userCountLabel" class="user-count">
+  0 users
+</span>
+```
 
-      <div>
+  </div>
 
-        <h2>
-          📊 Campaign Overview
-        </h2>
+  <div id="users">
+    <div class="empty-state">Loading users...</div>
+  </div>
 
-        <div class="card-subtitle">
-          Advertising campaign performance and budget information.
-        </div>
+</section>
 
+<div class="admin-grid">
+
+<section class="admin-card">
+
+  <div class="section-head">
+    <div>
+      <h2>💳 Withdrawal Requests</h2>
+      <div class="card-subtitle">
+        Review creator withdrawal requests and payment status.
       </div>
-
     </div>
+  </div>
 
-    <div id="campaignOverview">
+  <div id="withdrawals">
+    <div class="empty-state">Loading withdrawals...</div>
+  </div>
 
-      <div class="empty-state">
-        Campaign data will appear here.
+</section>
+
+<section class="admin-card">
+
+  <div class="section-head">
+    <div>
+      <h2>📢 Ad Campaigns</h2>
+      <div class="card-subtitle">
+        Create and manage advertising campaigns.
       </div>
-
     </div>
+  </div>
 
-  </section>
+  <form id="adForm" onsubmit="createAd(event)">
+
+```
+<div>
+  <label>Campaign Name</label>
+  <input
+    id="adTitle"
+    placeholder="e.g. Summer Promotion"
+    required
+  >
+</div>
+
+<div>
+  <label>Creative URL</label>
+  <input
+    id="creativeUrl"
+    placeholder="https://example.com/banner.jpg"
+    required
+  >
+</div>
+
+<div>
+  <label>Target URL</label>
+  <input
+    id="targetUrl"
+    placeholder="https://example.com"
+    required
+  >
+</div>
+
+<div>
+  <label>Total Budget (USD)</label>
+  <input
+    id="adBudget"
+    type="number"
+    min="1"
+    step="0.01"
+    placeholder="100"
+    required
+  >
+</div>
+
+<div>
+  <label>Creator CPM (USD)</label>
+  <input
+    id="creatorCpm"
+    type="number"
+    min="0"
+    step="0.01"
+    placeholder="2"
+    required
+  >
+</div>
+
+<div>
+  <label>Platform CPM (USD)</label>
+  <input
+    id="platformCpm"
+    type="number"
+    min="0"
+    step="0.01"
+    placeholder="1"
+    required
+  >
+</div>
+
+<button class="btn wide" type="submit">
+  + Create Campaign
+</button>
+```
+
+  </form>
+
+  <div id="ads">
+    <div class="empty-state">Loading campaigns...</div>
+  </div>
+
+</section>
+
+</div>
+
+<section class="admin-card section-full">
+
+  <div class="section-head">
+    <div>
+      <h2>📊 Campaign Overview</h2>
+      <div class="card-subtitle">
+        Advertising campaign performance and budget information.
+      </div>
+    </div>
+  </div>
+
+  <div id="campaignOverview">
+    <div class="empty-state">
+      Campaign data will appear here.
+    </div>
+  </div>
+
+</section>
 
 </main>
 
 <script>
-
-/* =====================================================
-   AUTHENTICATION
-===================================================== */
 
 const adminToken =
   localStorage.getItem("token") || "";
 
 let allUsers = [];
 
-
-/* =====================================================
-   AUTH HEADERS
-===================================================== */
-
 function authHeaders(){
 
   return {
-
-    "Authorization":
-      "Bearer " + adminToken,
-
-    "Content-Type":
-      "application/json"
-
+    "Authorization":"Bearer " + adminToken,
+    "Content-Type":"application/json"
   };
 
 }
 
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
 function logout(){
 
   localStorage.removeItem("token");
-
   location = "login.html";
 
 }
 
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
 function escapeHtml(value){
 
   return String(value ?? "")
-
     .replace(/&/g,"&amp;")
-
     .replace(/</g,"&lt;")
-
     .replace(/>/g,"&gt;")
-
     .replace(/"/g,"&quot;")
-
     .replace(/'/g,"&#039;");
 
 }
-
-
-/* =====================================================
-   USER AVATAR
-===================================================== */
 
 function userInitial(username){
 
   const name =
     String(username || "U").trim();
 
-  if(!name){
-
-    return "U";
-
-  }
-
   return name
-    .charAt(0)
-    .toUpperCase();
+    ? name.charAt(0).toUpperCase()
+    : "U";
 
 }
 
-
-/* =====================================================
-   PLURAL HELPERS
-===================================================== */
-
-function pluralize(
-  number,
-  singular,
-  plural
-){
+function pluralize(number,singular,plural){
 
   return Number(number) === 1
     ? singular
@@ -1315,151 +984,95 @@ function pluralize(
 
 }
 
-
-/* =====================================================
-   USER STATUS BADGE
-===================================================== */
-
 function userStatusBadge(status){
 
   const value =
-    String(status || "active")
-      .toLowerCase();
+    String(status || "active").toLowerCase();
 
   if(value === "disabled"){
 
     return `
-
       <span class="user-status user-disabled">
-
         <span class="user-status-dot"></span>
-
         Disabled
-
       </span>
-
     `;
 
   }
 
   return `
-
     <span class="user-status user-active">
-
       <span class="user-status-dot"></span>
-
       Active
-
     </span>
-
   `;
 
 }
 
-
-/* =====================================================
-   WITHDRAWAL STATUS BADGE
-===================================================== */
-
 function withdrawalBadge(status){
 
   const value =
-    String(status || "pending")
-      .toLowerCase();
+    String(status || "pending").toLowerCase();
 
-  let cls =
-    "status-pending";
+  let cls = "status-pending";
 
   if(
     value === "paid" ||
     value === "approved" ||
     value === "completed"
   ){
-
     cls = "status-paid";
-
   }
 
   if(
     value === "rejected" ||
     value === "cancelled"
   ){
-
     cls = "status-rejected";
-
   }
 
   return `
-
     <span class="status-badge ${cls}">
-
       <span class="status-dot"></span>
-
       ${escapeHtml(value)}
-
     </span>
-
   `;
 
 }
-
-
-/* =====================================================
-   CAMPAIGN STATUS BADGE
-===================================================== */
 
 function statusBadge(status){
 
   const value =
-    String(status || "draft")
-      .toLowerCase();
+    String(status || "draft").toLowerCase();
 
-  let cls =
-    "campaign-draft";
+  let cls = "campaign-draft";
 
   if(value === "active"){
-
     cls = "campaign-active";
-
   }
 
   if(value === "paused"){
-
     cls = "campaign-paused";
-
   }
 
   if(value === "rejected"){
-
     cls = "campaign-rejected";
-
   }
 
   return `
-
     <span class="campaign-status ${cls}">
-
       <span class="status-dot"></span>
-
       ${escapeHtml(value)}
-
     </span>
-
   `;
 
 }
-
-
-/* =====================================================
-   LOAD DASHBOARD
-===================================================== */
 
 async function load(){
 
   if(!adminToken){
 
     location = "login.html";
-
     return;
 
   }
@@ -1469,85 +1082,52 @@ async function load(){
     const r =
       await fetch(
         "/api/admin/stats",
-        {
-          headers:authHeaders()
-        }
+        {headers:authHeaders()}
       );
 
-
-    if(
-      r.status === 401 ||
-      r.status === 403
-    ){
+    if(r.status === 401 || r.status === 403){
 
       document.body.innerHTML = `
-
         <main class="auth">
-
           <div class="auth-card">
-
-            <h2>
-              Admin Login Required
-            </h2>
-
+            <h2>Admin Login Required</h2>
             <p class="muted">
               Please login with an administrator account.
             </p>
-
-            <a
-              class="btn wide"
-              href="login.html"
-            >
+            <a class="btn wide" href="login.html">
               Login
             </a>
-
           </div>
-
         </main>
-
       `;
 
       return;
 
     }
 
-
     if(!r.ok){
-
       throw new Error(
         "Admin statistics could not be loaded."
       );
-
     }
 
-
-    const s =
-      await r.json();
-
+    const s = await r.json();
 
     renderStats(s);
 
     await loadUsers();
-
     await loadWithdrawals();
-
     await loadAds();
-
 
   }catch(error){
 
     console.error(error);
 
-
-    document.getElementById(
-      "stats"
-    ).innerHTML = `
-
+    document.getElementById("stats").innerHTML = `
       <div
         class="admin-card"
         style="grid-column:1/-1"
       >
-
         <strong>
           Dashboard data could not be loaded.
         </strong>
@@ -1555,70 +1135,34 @@ async function load(){
         <p class="muted">
           Please refresh the page and try again.
         </p>
-
       </div>
-
     `;
 
   }
 
 }
 
-
-/* =====================================================
-   RENDER STATISTICS
-===================================================== */
-
 function renderStats(s){
 
-  document.getElementById(
-    "usersCount"
-  ).textContent =
-    Number(s.users || 0)
-      .toLocaleString();
+  document.getElementById("usersCount").textContent =
+    Number(s.users || 0).toLocaleString();
 
+  document.getElementById("videosCount").textContent =
+    Number(s.videos || 0).toLocaleString();
 
-  document.getElementById(
-    "videosCount"
-  ).textContent =
-    Number(s.videos || 0)
-      .toLocaleString();
+  document.getElementById("viewsCount").textContent =
+    Number(s.views || 0).toLocaleString();
 
+  document.getElementById("commentsCount").textContent =
+    Number(s.comments || 0).toLocaleString();
 
-  document.getElementById(
-    "viewsCount"
-  ).textContent =
-    Number(s.views || 0)
-      .toLocaleString();
+  document.getElementById("withdrawalsCount").textContent =
+    Number(s.withdrawals || 0).toLocaleString();
 
-
-  document.getElementById(
-    "commentsCount"
-  ).textContent =
-    Number(s.comments || 0)
-      .toLocaleString();
-
-
-  document.getElementById(
-    "withdrawalsCount"
-  ).textContent =
-    Number(s.withdrawals || 0)
-      .toLocaleString();
-
-
-  document.getElementById(
-    "adRevenue"
-  ).textContent =
-    "$" +
-    Number(s.adRevenue || 0)
-      .toFixed(2);
+  document.getElementById("adRevenue").textContent =
+    "$" + Number(s.adRevenue || 0).toFixed(2);
 
 }
-
-
-/* =====================================================
-   VIEW USER
-===================================================== */
 
 function viewUser(encodedId){
 
@@ -1630,33 +1174,25 @@ function viewUser(encodedId){
       item => String(item.id) === String(id)
     );
 
-
   if(!user){
 
     alert("User information could not be found.");
-
     return;
 
   }
-
 
   const status =
     user.status === "disabled"
       ? "Disabled"
       : "Active";
 
-
   const joined =
     user.createdAt
-      ? new Date(
-          user.createdAt
-        ).toLocaleString()
+      ? new Date(user.createdAt).toLocaleString()
       : "Unknown";
-
 
   const videos =
     Number(user.videos || 0);
-
 
   alert(
     "USER DETAILS\n\n" +
@@ -1681,11 +1217,6 @@ function viewUser(encodedId){
 
 }
 
-
-/* =====================================================
-   TOGGLE USER STATUS
-===================================================== */
-
 async function toggleUserStatus(
   encodedId,
   currentStatus
@@ -1699,58 +1230,43 @@ async function toggleUserStatus(
       item => String(item.id) === String(id)
     );
 
-
   if(!user){
 
     alert("User could not be found.");
-
     return;
 
   }
-
 
   if(user.role === "admin"){
 
     alert("Admin account cannot be disabled.");
-
     return;
 
   }
 
-
   const isDisabled =
-    String(currentStatus || "active")
-      .toLowerCase() === "disabled";
-
+    String(currentStatus || "active").toLowerCase()
+    === "disabled";
 
   const newStatus =
-    isDisabled
-      ? "active"
-      : "disabled";
-
+    isDisabled ? "active" : "disabled";
 
   const actionText =
     newStatus === "disabled"
       ? "disable"
       : "enable";
 
-
-  const confirmed =
-    confirm(
-      "Are you sure you want to " +
-      actionText +
-      " user \"" +
-      (user.username || "Unknown") +
-      "\"?"
-    );
-
-
-  if(!confirmed){
+  if(!confirm(
+    "Are you sure you want to " +
+    actionText +
+    ' user "' +
+    (user.username || "Unknown") +
+    '"?'
+  )){
 
     return;
 
   }
-
 
   try{
 
@@ -1768,10 +1284,8 @@ async function toggleUserStatus(
         }
       );
 
-
     const data =
       await r.json();
-
 
     if(!r.ok){
 
@@ -1784,9 +1298,7 @@ async function toggleUserStatus(
 
     }
 
-
     await loadUsers();
-
 
     alert(
       newStatus === "disabled"
@@ -1794,23 +1306,15 @@ async function toggleUserStatus(
         : "User enabled successfully."
     );
 
-
   }catch(error){
 
     console.error(error);
 
-    alert(
-      "Could not update user status."
-    );
+    alert("Could not update user status.");
 
   }
 
 }
-
-
-/* =====================================================
-   DELETE USER
-===================================================== */
 
 async function deleteUser(
   encodedId,
@@ -1823,43 +1327,29 @@ async function deleteUser(
   const username =
     decodeURIComponent(encodedUsername);
 
-
   const user =
     allUsers.find(
       item => String(item.id) === String(id)
     );
 
+  if(user && user.role === "admin"){
 
-  if(
-    user &&
-    user.role === "admin"
-  ){
-
-    alert(
-      "Admin account cannot be deleted."
-    );
-
+    alert("Admin account cannot be deleted.");
     return;
 
   }
 
-
-  const confirmed =
-    confirm(
-      "WARNING\n\n" +
-      "Are you sure you want to permanently delete user \"" +
-      username +
-      "\"?\n\n" +
-      "This action cannot be undone."
-    );
-
-
-  if(!confirmed){
+  if(!confirm(
+    "WARNING\n\n" +
+    'Are you sure you want to permanently delete user "' +
+    username +
+    '"?\n\n" +
+    "This action cannot be undone."
+  )){
 
     return;
 
   }
-
 
   try{
 
@@ -1873,10 +1363,8 @@ async function deleteUser(
         }
       );
 
-
     const data =
       await r.json();
-
 
     if(!r.ok){
 
@@ -1889,55 +1377,51 @@ async function deleteUser(
 
     }
 
-
     await load();
 
-
-    alert(
-      "User deleted successfully."
-    );
-
+    alert("User deleted successfully.");
 
   }catch(error){
 
     console.error(error);
 
-    alert(
-      "Could not delete user."
-    );
+    alert("Could not delete user.");
 
   }
 
 }
-
-
-/* =====================================================
-   RENDER USERS
-===================================================== */
 
 function renderUsers(data){
 
   const box =
     document.getElementById("users");
 
+  const countLabel =
+    document.getElementById("userCountLabel");
+
+  if(countLabel){
+
+    countLabel.textContent =
+      `${data.length} ${pluralize(
+        data.length,
+        "user"
+      )}`;
+
+  }
 
   if(!Array.isArray(data) || !data.length){
 
     box.innerHTML = `
-
       <div class="empty-state">
         No users found.
       </div>
-
     `;
 
     return;
 
   }
 
-
   box.innerHTML =
-
     data.map(x => {
 
       const videoCount =
@@ -1951,12 +1435,10 @@ function renderUsers(data){
           ? "disabled"
           : "active";
 
-
       const encodedId =
         encodeURIComponent(
           String(x.id || "")
         );
-
 
       const encodedUsername =
         encodeURIComponent(
@@ -1966,7 +1448,6 @@ function renderUsers(data){
           )
         );
 
-
       const joined =
         x.createdAt
           ? new Date(
@@ -1974,9 +1455,7 @@ function renderUsers(data){
             ).toLocaleDateString()
           : "Unknown";
 
-
       return `
-
         <div class="admin-row">
 
           <div class="user-management">
@@ -1986,13 +1465,11 @@ function renderUsers(data){
               <div class="user-main">
 
                 <div class="user-avatar">
-
                   ${escapeHtml(
                     userInitial(
                       x.username
                     )
                   )}
-
                 </div>
 
                 <div class="user-details">
@@ -2004,13 +1481,11 @@ function renderUsers(data){
                       "Unknown User"
                     )}
 
-                    <span
-                      class="user-role ${
-                        isAdmin
-                          ? "user-admin"
-                          : "user-creator"
-                      }"
-                    >
+                    <span class="user-role ${
+                      isAdmin
+                        ? "user-admin"
+                        : "user-creator"
+                    }">
 
                       ${escapeHtml(
                         x.role || "creator"
@@ -2021,12 +1496,10 @@ function renderUsers(data){
                   </strong>
 
                   <div class="user-email">
-
                     ${escapeHtml(
                       x.email ||
                       "No email"
                     )}
-
                   </div>
 
                   <div class="user-extra">
@@ -2048,11 +1521,7 @@ function renderUsers(data){
 
                     &nbsp;•&nbsp;
 
-                    Joined
-
-                    ${escapeHtml(
-                      joined
-                    )}
+                    Joined ${escapeHtml(joined)}
 
                   </div>
 
@@ -2074,17 +1543,12 @@ function renderUsers(data){
 
               ${
                 isAdmin
-
                 ? `
-
                   <span class="admin-protected">
                     🔒 Protected
                   </span>
-
                 `
-
                 : `
-
                   <button
                     type="button"
                     class="action-btn ${
@@ -2097,13 +1561,11 @@ function renderUsers(data){
                       '${currentStatus}'
                     )"
                   >
-
                     ${
                       currentStatus === "disabled"
                         ? "✓ Enable"
                         : "⏸ Disable"
                     }
-
                   </button>
 
                   <button
@@ -2116,9 +1578,7 @@ function renderUsers(data){
                   >
                     🗑 Delete
                   </button>
-
                 `
-
               }
 
             </div>
@@ -2126,42 +1586,28 @@ function renderUsers(data){
           </div>
 
         </div>
-
       `;
 
     }).join("");
 
 }
 
-
-/* =====================================================
-   FILTER USERS
-===================================================== */
-
 function filterUsers(){
 
   const input =
-    document.getElementById(
-      "userSearch"
-    );
-
+    document.getElementById("userSearch");
 
   const query =
-    String(
-      input.value || ""
-    )
-    .trim()
-    .toLowerCase();
-
+    String(input.value || "")
+      .trim()
+      .toLowerCase();
 
   if(!query){
 
     renderUsers(allUsers);
-
     return;
 
   }
-
 
   const filtered =
     allUsers.filter(user => {
@@ -2169,16 +1615,12 @@ function filterUsers(){
       const username =
         String(
           user.username || ""
-        )
-        .toLowerCase();
-
+        ).toLowerCase();
 
       const email =
         String(
           user.email || ""
-        )
-        .toLowerCase();
-
+        ).toLowerCase();
 
       return (
         username.includes(query) ||
@@ -2187,15 +1629,9 @@ function filterUsers(){
 
     });
 
-
   renderUsers(filtered);
 
 }
-
-
-/* =====================================================
-   LOAD USERS
-===================================================== */
 
 async function loadUsers(){
 
@@ -2209,61 +1645,39 @@ async function loadUsers(){
         }
       );
 
-
-    if(
-      r.status === 401 ||
-      r.status === 403
-    ){
-
+    if(r.status === 401 || r.status === 403){
       return;
-
     }
 
-
     if(!r.ok){
-
       throw new Error(
         "Users could not be loaded."
       );
-
     }
-
 
     const data =
       await r.json();
-
 
     allUsers =
       Array.isArray(data)
         ? data
         : [];
 
-
     filterUsers();
-
 
   }catch(error){
 
     console.error(error);
 
-
-    document.getElementById(
-      "users"
-    ).innerHTML = `
-
+    document.getElementById("users").innerHTML = `
       <div class="empty-state">
         Users could not be loaded.
       </div>
-
     `;
 
   }
 
 }
-
-/* =====================================================
-   REFRESH USERS BUTTON
-===================================================== */
 
 async function refreshUsers(){
 
@@ -2275,9 +1689,7 @@ async function refreshUsers(){
   if(button){
 
     button.disabled = true;
-
-    button.textContent =
-      "↻ Refreshing...";
+    button.textContent = "↻ Refreshing...";
 
   }
 
@@ -2286,10 +1698,7 @@ async function refreshUsers(){
     await loadUsers();
 
     if(button){
-
-      button.textContent =
-        "✓ Users Refreshed";
-
+      button.textContent = "✓ Users Refreshed";
     }
 
     setTimeout(() => {
@@ -2297,9 +1706,7 @@ async function refreshUsers(){
       if(button){
 
         button.disabled = false;
-
-        button.textContent =
-          "↻ Refresh Users";
+        button.textContent = "↻ Refresh Users";
 
       }
 
@@ -2312,24 +1719,15 @@ async function refreshUsers(){
     if(button){
 
       button.disabled = false;
-
-      button.textContent =
-        "↻ Refresh Users";
+      button.textContent = "↻ Refresh Users";
 
     }
 
-    alert(
-      "Users could not be refreshed."
-    );
+    alert("Users could not be refreshed.");
 
   }
 
 }
-  
-
-/* =====================================================
-   LOAD WITHDRAWALS
-===================================================== */
 
 async function loadWithdrawals(){
 
@@ -2343,7 +1741,6 @@ async function loadWithdrawals(){
         }
       );
 
-
     if(!r.ok){
 
       throw new Error(
@@ -2352,34 +1749,25 @@ async function loadWithdrawals(){
 
     }
 
-
     const data =
       await r.json();
 
-
     const box =
-      document.getElementById(
-        "withdrawals"
-      );
-
+      document.getElementById("withdrawals");
 
     if(!Array.isArray(data) || !data.length){
 
       box.innerHTML = `
-
         <div class="empty-state">
           No withdrawal requests.
         </div>
-
       `;
 
       return;
 
     }
 
-
     box.innerHTML =
-
       data.map(w => `
 
         <div class="admin-row">
@@ -2387,32 +1775,22 @@ async function loadWithdrawals(){
           <div class="admin-row-info">
 
             <strong>
-
-              💰
-
-              ${escapeHtml(
-                w.user ||
-                "Unknown"
+              💰 ${escapeHtml(
+                w.user || "Unknown"
               )}
-
             </strong>
 
             <div class="user-email">
-
               Amount:
               $${Number(
                 w.amount || 0
               ).toFixed(2)}
-
             </div>
 
             <div class="user-meta">
-
               ${withdrawalBadge(
-                w.status ||
-                "pending"
+                w.status || "pending"
               )}
-
             </div>
 
           </div>
@@ -2423,7 +1801,6 @@ async function loadWithdrawals(){
             ).toLowerCase() === "pending"
 
             ? `
-
               <div class="admin-row-actions">
 
                 <button
@@ -2453,41 +1830,29 @@ async function loadWithdrawals(){
                 </button>
 
               </div>
-
             `
-
             : ""
-
           }
 
         </div>
 
       `).join("");
 
-
   }catch(error){
 
     console.error(error);
 
-
     document.getElementById(
       "withdrawals"
     ).innerHTML = `
-
       <div class="empty-state">
         Withdrawals could not be loaded.
       </div>
-
     `;
 
   }
 
 }
-
-
-/* =====================================================
-   UPDATE WITHDRAWAL
-===================================================== */
 
 async function updateWithdrawal(
   id,
@@ -2509,10 +1874,8 @@ async function updateWithdrawal(
         }
       );
 
-
     const x =
       await r.json();
-
 
     if(!r.ok){
 
@@ -2525,26 +1888,17 @@ async function updateWithdrawal(
 
     }
 
-
     await load();
-
 
   }catch(error){
 
     console.error(error);
 
-    alert(
-      "Withdrawal update failed."
-    );
+    alert("Withdrawal update failed.");
 
   }
 
 }
-
-
-/* =====================================================
-   LOAD AD CAMPAIGNS
-===================================================== */
 
 async function loadAds(){
 
@@ -2558,71 +1912,54 @@ async function loadAds(){
         }
       );
 
-
     const box =
-      document.getElementById(
-        "ads"
-      );
-
+      document.getElementById("ads");
 
     const overview =
       document.getElementById(
         "campaignOverview"
       );
 
-
     if(!r.ok){
 
       box.innerHTML = `
-
         <div class="empty-state">
           No campaign data available.
         </div>
-
       `;
 
       overview.innerHTML = `
-
         <div class="empty-state">
           No campaign data available.
         </div>
-
       `;
 
       return;
 
     }
-
 
     const data =
       await r.json();
 
-
     if(!Array.isArray(data) || !data.length){
 
       box.innerHTML = `
-
         <div class="empty-state">
           No ad campaigns yet.
         </div>
-
       `;
 
       overview.innerHTML = `
-
         <div class="empty-state">
           Campaign data will appear here.
         </div>
-
       `;
 
       return;
 
     }
 
-
     box.innerHTML =
-
       data.map(ad => `
 
         <div class="admin-row">
@@ -2632,7 +1969,6 @@ async function loadAds(){
             <strong class="campaign-title">
 
               📢
-
               ${escapeHtml(
                 ad.title ||
                 ad.name ||
@@ -2667,8 +2003,7 @@ async function loadAds(){
 
               <span>
                 ${statusBadge(
-                  ad.status ||
-                  "draft"
+                  ad.status || "draft"
                 )}
               </span>
 
@@ -2680,9 +2015,7 @@ async function loadAds(){
 
       `).join("");
 
-
     overview.innerHTML =
-
       data.map(ad => `
 
         <div class="admin-row">
@@ -2690,57 +2023,43 @@ async function loadAds(){
           <div class="admin-row-info">
 
             <strong>
-
               ${escapeHtml(
                 ad.title ||
                 ad.name ||
                 ad.campaignName ||
                 "Campaign"
               )}
-
             </strong>
 
             <div class="campaign-details">
 
               <span>
-
                 Budget:
                 $${Number(
                   ad.budget || 0
                 ).toFixed(2)}
-
               </span>
 
               <span>
-
                 Status:
                 ${statusBadge(
-                  ad.status ||
-                  "draft"
+                  ad.status || "draft"
                 )}
-
               </span>
 
               ${
                 ad.createdAt
-
                 ? `
-
                   <span>
-
                     Created:
                     ${escapeHtml(
                       new Date(
                         ad.createdAt
                       ).toLocaleDateString()
                     )}
-
                   </span>
-
                 `
-
                 : ""
-
               }
 
             </div>
@@ -2751,46 +2070,33 @@ async function loadAds(){
 
       `).join("");
 
-
   }catch(error){
 
     console.error(error);
 
-
     document.getElementById(
       "ads"
     ).innerHTML = `
-
       <div class="empty-state">
         Campaigns could not be loaded.
       </div>
-
     `;
-
 
     document.getElementById(
       "campaignOverview"
     ).innerHTML = `
-
       <div class="empty-state">
         Campaign overview could not be loaded.
       </div>
-
     `;
 
   }
 
 }
 
-
-/* =====================================================
-   CREATE AD CAMPAIGN
-===================================================== */
-
 async function createAd(event){
 
   event.preventDefault();
-
 
   const payload = {
 
@@ -2832,7 +2138,6 @@ async function createAd(event){
 
   };
 
-
   try{
 
     const r =
@@ -2841,16 +2146,12 @@ async function createAd(event){
         {
           method:"POST",
           headers:authHeaders(),
-          body:JSON.stringify(
-            payload
-          )
+          body:JSON.stringify(payload)
         }
       );
 
-
     const x =
       await r.json();
-
 
     if(!r.ok){
 
@@ -2863,41 +2164,29 @@ async function createAd(event){
 
     }
 
-
     document.getElementById(
       "adForm"
     ).reset();
 
-
     await loadAds();
-
 
     alert(
       "Campaign created successfully."
     );
 
-
   }catch(error){
 
     console.error(error);
 
-    alert(
-      "Campaign creation failed."
-    );
+    alert("Campaign creation failed.");
 
   }
 
 }
-
-
-/* =====================================================
-   START DASHBOARD
-===================================================== */
 
 load();
 
 </script>
 
 </body>
-
 </html>
