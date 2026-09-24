@@ -1326,3 +1326,70 @@ aside a.active{
     text-align:center;
   }
 }
+/* =========================
+   PROFESSIONAL EARNINGS BOX
+========================= */
+
+.earn{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:22px 24px;
+  margin-top:15px;
+
+  background:#f1f3f5;
+  border:1px solid #c9ced3;
+  border-radius:14px;
+
+  color:#111;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+
+.earn > div{
+  min-width:0;
+}
+
+.earn b{
+  display:block;
+  margin-top:6px;
+  font-size:32px;
+  color:#111;
+}
+
+.earn .btn,
+.earn button{
+  background:#d9dde1;
+  color:#111 !important;
+  border:1px solid #b8bec5;
+  border-radius:8px;
+  padding:10px 16px;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.earn .btn:hover,
+.earn button:hover{
+  background:#eef0f2;
+}
+
+/* Mobile */
+@media(max-width:560px){
+  .earn{
+    flex-direction:column;
+    align-items:stretch;
+    padding:18px;
+  }
+
+  .earn b{
+    font-size:28px;
+  }
+
+  .earn .btn,
+  .earn button{
+    width:100%;
+    text-align:center;
+  }
+}
