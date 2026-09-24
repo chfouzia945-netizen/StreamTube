@@ -859,9 +859,19 @@ main.admin-wrap{
     gap:8px;
   }
 
-  nav a{
-    display:none;
-  }
+header nav a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 10px;
+  min-height:38px;
+  border-radius:8px;
+  background:#181d23;
+  border:1px solid #2b323b;
+  color:#e8edf2;
+  font-size:13px;
+  white-space:nowrap;
+}
 
   .logo{
     font-size:20px;
@@ -942,4 +952,13 @@ main.admin-wrap{
   .studio-top .btn{
     margin-top:15px;
   }
+}
+header nav{
+  gap:4px;
+}
+
+header nav a{
+  padding:7px 6px;
+  font-size:11px;
+  min-height:36px;
 }
