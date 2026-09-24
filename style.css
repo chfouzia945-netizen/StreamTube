@@ -1259,3 +1259,11 @@ main{
   color:#111;
 }
 
+/* SIDEBAR TEXT BLACK */
+
+aside a,
+aside a:visited,
+aside a:hover,
+aside a.active{
+  color:#000 !important;
+}
