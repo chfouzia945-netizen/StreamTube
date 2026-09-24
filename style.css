@@ -1250,5 +1250,12 @@ aside a.active{
 aside hr{
   border-color:#252b33;
 }
+/* WHITE PAGE BACKGROUND */
 
+body,
+.layout,
+main{
+  background:#fff !important;
+  color:#111;
+}
 
