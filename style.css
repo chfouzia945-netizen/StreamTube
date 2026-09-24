@@ -14,6 +14,8 @@
 
 html{
   min-height:100%;
+  overflow-x:hidden;
+  scroll-behavior:smooth;
 }
 
 body{
@@ -22,6 +24,7 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:Inter,Arial,sans-serif;
+  overflow-x:hidden;
 }
 
 a{
@@ -36,8 +39,17 @@ select{
   font:inherit;
 }
 
+img,
+video{
+  max-width:100%;
+}
+
+/* =========================
+   HEADER
+========================= */
+
 header{
-  height:64px;
+  min-height:64px;
   border-bottom:1px solid var(--line);
   display:flex;
   align-items:center;
@@ -47,6 +59,7 @@ header{
   top:0;
   background:#0b0d10ee;
   backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
   z-index:100;
 }
 
@@ -54,6 +67,7 @@ header{
   font-size:23px;
   font-weight:900;
   white-space:nowrap;
+  flex-shrink:0;
 }
 
 .logo span{
@@ -62,12 +76,16 @@ header{
 
 .search{
   display:flex;
+  width:100%;
   max-width:650px;
   flex:1;
   margin:auto;
+  min-width:0;
 }
 
 .search input{
+  width:100%;
+  min-width:0;
   flex:1;
   background:#161a1f;
   border:1px solid #303740;
@@ -77,13 +95,23 @@ header{
   outline:none;
 }
 
+.search input::placeholder{
+  color:#78828d;
+}
+
+.search input:focus{
+  border-color:#4a535e;
+}
+
 .search button{
+  flex:0 0 auto;
   background:#252b33;
   border:1px solid #303740;
   color:#fff;
   padding:0 18px;
   border-radius:0 9px 9px 0;
   cursor:pointer;
+  min-width:52px;
 }
 
 .search button:hover,
@@ -96,6 +124,7 @@ nav{
   align-items:center;
   gap:18px;
   white-space:nowrap;
+  flex-shrink:0;
 }
 
 nav a,
@@ -155,7 +184,12 @@ main{
   max-width:1250px;
   margin:0 auto;
   padding:28px;
+  min-width:0;
 }
+
+/* =========================
+   HERO
+========================= */
 
 .hero{
   min-height:270px;
@@ -170,16 +204,19 @@ main{
   );
   display:flex;
   align-items:center;
+  overflow:hidden;
 }
 
 .hero h1{
   font-size:48px;
+  line-height:1.08;
   margin:12px 0;
 }
 
 .hero p{
   color:#b8c0c8;
   max-width:600px;
+  line-height:1.6;
 }
 
 .pill{
@@ -198,6 +235,7 @@ main{
   padding:12px 18px;
   font-weight:800;
   cursor:pointer;
+  text-align:center;
 }
 
 .wide{
@@ -209,13 +247,23 @@ main{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:15px;
   margin-top:30px;
 }
 
+.section-head h2{
+  margin:0;
+}
+
+/* =========================
+   VIDEO GRID
+========================= */
+
 .grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:18px;
+  width:100%;
 }
 
 .card,
@@ -226,35 +274,55 @@ main{
 }
 
 .video-card{
+  min-width:0;
   overflow:hidden;
   background:var(--panel);
   border:1px solid var(--line);
   border-radius:12px;
+  transition:transform .18s ease,border-color .18s ease;
+}
+
+.video-card:hover{
+  transform:translateY(-2px);
+  border-color:#3a424c;
 }
 
 .thumb{
-  height:145px;
+  width:100%;
+  aspect-ratio:16/9;
+  height:auto;
+  min-height:0;
   background:linear-gradient(135deg,#242b34,#111);
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:42px;
   color:#69737e;
+  overflow:hidden;
 }
 
 .video-card img{
+  display:block;
   width:100%;
-  height:145px;
+  aspect-ratio:16/9;
+  height:auto;
   object-fit:cover;
+  background:#111;
 }
 
 .video-card .body{
   padding:13px;
+  min-width:0;
 }
 
 .video-card h3{
   font-size:16px;
+  line-height:1.4;
   margin:0 0 7px;
+  overflow:hidden;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
 }
 
 .muted{
@@ -274,6 +342,7 @@ main{
 }
 
 .watch video{
+  display:block;
   width:100%;
   max-height:650px;
   background:#000;
@@ -283,6 +352,12 @@ main{
 .watch-info{
   padding:18px 0;
   border-bottom:1px solid var(--line);
+}
+
+.watch-info h1,
+.watch-info h2,
+.watch-info h3{
+  overflow-wrap:anywhere;
 }
 
 .actions{
@@ -314,6 +389,7 @@ main{
 }
 
 .comment-box input{
+  min-width:0;
   flex:1;
   padding:12px;
   background:#151a20;
@@ -325,6 +401,7 @@ main{
 .comment{
   padding:13px 0;
   border-bottom:1px solid var(--line);
+  overflow-wrap:anywhere;
 }
 
 /* =========================
@@ -335,6 +412,7 @@ main{
   min-height:100vh;
   display:grid;
   place-items:center;
+  padding:20px;
 }
 
 .auth-card,
@@ -357,6 +435,14 @@ main{
   color:#fff;
   border:1px solid #303740;
   border-radius:8px;
+  outline:none;
+}
+
+.auth-card input:focus,
+.form-page input:focus,
+.form-page textarea:focus,
+.form-page select:focus{
+  border-color:#505a66;
 }
 
 .auth-card .logo{
@@ -380,6 +466,7 @@ main{
   background:#0e1216;
   padding:12px;
   border-radius:8px;
+  overflow-wrap:anywhere;
 }
 
 .form-page{
@@ -414,13 +501,14 @@ main{
 
 .stats{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:15px;
   margin:25px 0;
 }
 
 .stat{
   padding:20px;
+  min-width:0;
 }
 
 .stat small{
@@ -444,12 +532,14 @@ main{
   gap:15px;
   padding:14px 0;
   border-bottom:1px solid var(--line);
+  min-width:0;
 }
 
 .earn{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:15px;
 }
 
 .earn b{
@@ -540,6 +630,7 @@ main.admin-wrap{
   display:block;
   font-size:27px;
   line-height:1.2;
+  overflow-wrap:anywhere;
 }
 
 /* Admin cards */
@@ -612,11 +703,13 @@ main.admin-wrap{
   display:block;
   font-size:15px;
   margin-bottom:4px;
+  overflow-wrap:anywhere;
 }
 
 .admin-row-info span{
   color:var(--muted);
   font-size:13px;
+  overflow-wrap:anywhere;
 }
 
 /* Admin actions */
@@ -636,6 +729,7 @@ main.admin-wrap{
   padding:8px 12px;
   cursor:pointer;
   font-weight:600;
+  min-height:38px;
 }
 
 .admin-actions button:hover{
@@ -692,6 +786,7 @@ main.admin-wrap{
   color:#888;
   font-size:13px;
   margin-top:4px;
+  overflow-wrap:anywhere;
 }
 
 .user-meta{
@@ -747,9 +842,15 @@ main.admin-wrap{
   outline:none;
 }
 
+.ad-form input:focus{
+  border-color:#505a66;
+}
+
 .ad-form button{
   margin-top:5px;
 }
+
+/* Ad status */
 
 .ad-status{
   display:inline-block;
@@ -806,7 +907,52 @@ main.admin-wrap{
 }
 
 /* =====================================================
-   RESPONSIVE
+   TABLET
+===================================================== */
+
+@media(max-width:1100px){
+
+  header{
+    gap:16px;
+    padding:0 18px;
+  }
+
+  nav{
+    gap:12px;
+  }
+
+  aside{
+    width:210px;
+    flex-basis:210px;
+  }
+
+  main{
+    padding:24px 20px;
+  }
+
+  .grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .hero{
+    padding:38px;
+  }
+
+  .hero h1{
+    font-size:42px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .admin-stats{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+/* =====================================================
+   MOBILE
 ===================================================== */
 
 @media(max-width:900px){
@@ -815,17 +961,26 @@ main.admin-wrap{
     display:none;
   }
 
+  .layout{
+    display:block;
+    min-height:calc(100vh - 64px);
+  }
+
   main{
+    width:100%;
     max-width:100%;
+    padding:22px 18px;
   }
 
   .grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
   }
 
   header{
-    padding:0 12px;
+    padding:10px 14px;
     gap:12px;
+    min-height:60px;
   }
 
   .search{
@@ -837,7 +992,7 @@ main.admin-wrap{
   }
 
   .stats{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 
   .admin-stats{
@@ -849,97 +1004,464 @@ main.admin-wrap{
   }
 }
 
-@media(max-width:560px){
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media(max-width:700px){
 
   header{
-    height:60px;
+    min-height:108px;
+    height:auto;
+    padding:10px 12px 12px;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    grid-template-areas:
+      "logo nav"
+      "search search";
+    gap:10px 12px;
+    align-items:center;
   }
 
-  nav{
-    gap:8px;
+  header .logo{
+    grid-area:logo;
+    font-size:21px;
   }
 
-  nav a{
+  header .search{
+    grid-area:search;
+    width:100%;
+    max-width:none;
+    margin:0;
+  }
+
+  header nav{
+    grid-area:nav;
+    justify-content:flex-end;
+    gap:6px;
+  }
+
+  header nav a{
     display:none;
   }
 
-  .logo{
-    font-size:20px;
+  header nav a#adminLink{
+    display:none !important;
   }
 
   .search input{
-    min-width:0;
-    padding:10px;
+    height:43px;
+    padding:10px 12px;
+    font-size:14px;
   }
 
   .search button{
+    height:43px;
+    min-width:48px;
     padding:0 12px;
   }
 
+  .layout{
+    min-height:calc(100vh - 108px);
+  }
+
   main{
-    padding:18px 14px;
+    padding:16px 12px 35px;
+  }
+
+  .hero{
+    min-height:0;
+    padding:28px 20px;
+    border-radius:15px;
+  }
+
+  .hero h1{
+    font-size:31px;
+    line-height:1.12;
+    margin:10px 0;
+  }
+
+  .hero p{
+    font-size:14px;
+    line-height:1.55;
+    margin:0 0 18px;
+  }
+
+  .hero .btn{
+    width:100%;
+    padding:13px 16px;
+  }
+
+  .section-head{
+    margin-top:24px;
+    align-items:flex-end;
+  }
+
+  .section-head h2{
+    font-size:20px;
   }
 
   .grid{
     grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .video-card{
+    border-radius:12px;
+  }
+
+  .video-card .body{
+    padding:12px;
+  }
+
+  .video-card h3{
+    font-size:15px;
+  }
+
+  .thumb,
+  .video-card img{
+    aspect-ratio:16/9;
+  }
+
+  /* Watch */
+
+  .watch{
+    padding:12px 0;
+  }
+
+  .watch video{
+    border-radius:9px;
+    max-height:none;
+  }
+
+  .watch-info{
+    padding:14px 0;
+  }
+
+  .actions{
+    gap:7px;
+    margin:14px 0;
+  }
+
+  .actions button{
+    flex:1 1 calc(50% - 7px);
+    min-height:42px;
+    padding:10px 8px;
+  }
+
+  .comment-box{
+    gap:7px;
+  }
+
+  .comment-box input{
+    min-width:0;
+  }
+
+  .comment-box button{
+    flex:0 0 auto;
+  }
+
+  /* Auth */
+
+  .auth{
+    padding:15px;
+    min-height:100vh;
+  }
+
+  .auth-card,
+  .form-page .card{
+    width:100%;
+    padding:21px 17px;
+    border-radius:14px;
+  }
+
+  .auth-card .logo{
+    font-size:22px;
+  }
+
+  /* Forms */
+
+  .form-page{
+    width:100%;
+    max-width:100%;
+  }
+
+  .form-page .card{
+    margin:0;
+  }
+
+  .form-page input,
+  .form-page textarea,
+  .form-page select{
+    font-size:16px;
+    min-height:44px;
+  }
+
+  /* Studio */
+
+  .studio{
+    width:100%;
+    max-width:100%;
+  }
+
+  .studio-top{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:13px;
+  }
+
+  .studio-top .btn{
+    width:100%;
   }
 
   .stats{
     grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin:18px 0;
   }
 
-  .admin-stats{
-    grid-template-columns:1fr;
-    gap:12px;
+  .stat{
+    padding:15px 13px;
   }
+
+  .stat b{
+    font-size:21px;
+  }
+
+  .card{
+    padding:17px;
+    margin:13px 0;
+  }
+
+  .row{
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
+  }
+
+  .earn{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .earn b{
+    font-size:27px;
+  }
+
+  /* Admin */
 
   main.admin-wrap{
-    padding:20px 14px 40px;
+    width:100%;
+    max-width:100%;
+    padding:20px 12px 40px;
+  }
+
+  .admin-header{
+    margin-bottom:18px;
   }
 
   .admin-header h1{
-    font-size:26px;
+    font-size:25px;
+  }
+
+  .admin-header p{
+    font-size:13px;
+    line-height:1.5;
+  }
+
+  .admin-badge{
+    font-size:12px;
+  }
+
+  .admin-stats{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:18px;
+  }
+
+  .admin-stat{
+    padding:15px 13px;
+    border-radius:12px;
+  }
+
+  .admin-stat .icon{
+    font-size:21px;
+    margin-bottom:8px;
+  }
+
+  .admin-stat small{
+    font-size:11px;
+    line-height:1.3;
+  }
+
+  .admin-stat strong,
+  .admin-stat b{
+    font-size:20px;
   }
 
   .admin-card{
-    padding:17px;
+    padding:16px;
+    border-radius:12px;
+  }
+
+  .admin-card h2{
+    font-size:18px;
+  }
+
+  .card-subtitle{
+    font-size:12px;
+    line-height:1.5;
   }
 
   .admin-grid{
     grid-template-columns:1fr;
-    gap:15px;
+    gap:13px;
+    margin-bottom:13px;
   }
 
   .admin-row{
     align-items:flex-start;
     flex-direction:column;
+    gap:11px;
+  }
+
+  .admin-row-info{
+    width:100%;
   }
 
   .admin-actions{
     width:100%;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 
   .admin-actions button{
-    flex:1;
+    width:100%;
+    min-height:40px;
+    padding:8px 6px;
+    font-size:12px;
+  }
+
+  .admin-form input,
+  .admin-form textarea,
+  .admin-form select,
+  .ad-form input{
+    min-height:44px;
+    font-size:16px;
+  }
+
+  .empty-state{
+    padding:20px 8px;
+    font-size:13px;
+  }
+}
+
+/* =====================================================
+   VERY SMALL PHONES
+===================================================== */
+
+@media(max-width:420px){
+
+  header{
+    grid-template-columns:1fr auto;
+  }
+
+  header .logo{
+    font-size:19px;
+  }
+
+  main{
+    padding-left:10px;
+    padding-right:10px;
   }
 
   .hero{
-    padding:25px;
+    padding:23px 17px;
   }
 
   .hero h1{
-    font-size:30px;
+    font-size:28px;
   }
 
-  .watch{
-    padding:12px;
+  .pill{
+    font-size:10px;
+    letter-spacing:1.2px;
   }
 
-  .studio-top{
-    display:block;
+  .stats{
+    gap:8px;
   }
 
-  .studio-top .btn{
-    margin-top:15px;
+  .stat{
+    padding:13px 10px;
+  }
+
+  .stat small{
+    font-size:11px;
+  }
+
+  .stat b{
+    font-size:19px;
+  }
+
+  main.admin-wrap{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .admin-stats{
+    gap:8px;
+  }
+
+  .admin-stat{
+    padding:13px 10px;
+  }
+
+  .admin-stat strong,
+  .admin-stat b{
+    font-size:18px;
+  }
+
+  .admin-actions{
+    grid-template-columns:1fr;
+  }
+
+  .actions button{
+    flex:1 1 100%;
+  }
+
+  .comment-box{
+    flex-direction:column;
+  }
+
+  .comment-box button{
+    width:100%;
+    min-height:42px;
+  }
+}
+
+/* =====================================================
+   TOUCH DEVICES
+===================================================== */
+
+@media(hover:none) and (pointer:coarse){
+
+  nav a,
+  nav button,
+  button,
+  .btn{
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .video-card:hover{
+    transform:none;
+  }
+
+  .btn,
+  .actions button,
+  .admin-actions button,
+  .search button{
+    min-height:42px;
   }
 }
