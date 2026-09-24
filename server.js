@@ -14,9 +14,21 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
+
+// Persistent file storage.
+// Railway Volume will use /data.
+// Local development will use the project's data folder.
+const STORAGE_ROOT =
+  process.env.STORAGE_ROOT ||
+  path.join(ROOT, "data");
+
 const DATA = path.join(ROOT, "data", "db.json");
-const UPLOADS = path.join(ROOT, "uploads");
-const MEDIA = path.join(ROOT, "media");
+
+// Uploaded videos and thumbnails
+const UPLOADS = path.join(STORAGE_ROOT, "uploads");
+
+// HLS playlists and segments
+const MEDIA = path.join(STORAGE_ROOT, "media");
 
 const SECRET =
   process.env.JWT_SECRET ||
