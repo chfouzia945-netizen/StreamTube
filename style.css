@@ -1,3 +1,4 @@
+```css
 :root{
   --bg:#0b0d10;
   --panel:#12161b;
@@ -22,6 +23,7 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:Inter,Arial,sans-serif;
+  overflow-x:hidden;
 }
 
 a{
@@ -35,6 +37,10 @@ textarea,
 select{
   font:inherit;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 header{
   height:64px;
@@ -65,10 +71,12 @@ header{
   max-width:650px;
   flex:1;
   margin:auto;
+  min-width:0;
 }
 
 .search input{
   flex:1;
+  min-width:0;
   background:#161a1f;
   border:1px solid #303740;
   color:#fff;
@@ -78,6 +86,7 @@ header{
 }
 
 .search button{
+  flex:0 0 auto;
   background:#252b33;
   border:1px solid #303740;
   color:#fff;
@@ -157,6 +166,10 @@ main{
   padding:28px;
 }
 
+/* =========================
+   HERO
+========================= */
+
 .hero{
   min-height:270px;
   border:1px solid var(--line);
@@ -205,6 +218,10 @@ main{
   text-align:center;
 }
 
+/* =========================
+   VIDEO GRID
+========================= */
+
 .section-head{
   display:flex;
   justify-content:space-between;
@@ -214,7 +231,7 @@ main{
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:18px;
 }
 
@@ -226,6 +243,8 @@ main{
 }
 
 .video-card{
+  width:100%;
+  min-width:0;
   overflow:hidden;
   background:var(--panel);
   border:1px solid var(--line);
@@ -243,6 +262,7 @@ main{
 }
 
 .video-card img{
+  display:block;
   width:100%;
   height:145px;
   object-fit:cover;
@@ -255,6 +275,7 @@ main{
 .video-card h3{
   font-size:16px;
   margin:0 0 7px;
+  line-height:1.35;
 }
 
 .muted{
@@ -315,6 +336,7 @@ main{
 
 .comment-box input{
   flex:1;
+  min-width:0;
   padding:12px;
   background:#151a20;
   border:1px solid var(--line);
@@ -467,8 +489,6 @@ main.admin-wrap{
   padding:30px 20px 60px;
 }
 
-/* Admin header */
-
 .admin-header{
   width:100%;
   margin-bottom:25px;
@@ -503,8 +523,6 @@ main.admin-wrap{
   border-radius:50%;
   background:#35d66f;
 }
-
-/* Admin statistics */
 
 .admin-stats{
   width:100%;
@@ -542,8 +560,6 @@ main.admin-wrap{
   line-height:1.2;
 }
 
-/* Admin cards */
-
 .admin-card{
   width:100%;
   min-width:0;
@@ -566,14 +582,10 @@ main.admin-wrap{
   margin-bottom:18px;
 }
 
-/* Full width sections */
-
 .section-full{
   width:100%;
   margin:0 0 20px;
 }
-
-/* Two-column area */
 
 .admin-grid{
   width:100%;
@@ -586,8 +598,6 @@ main.admin-wrap{
 .admin-grid > .admin-card{
   min-width:0;
 }
-
-/* Admin rows */
 
 .admin-row{
   width:100%;
@@ -618,8 +628,6 @@ main.admin-wrap{
   color:var(--muted);
   font-size:13px;
 }
-
-/* Admin actions */
 
 .admin-actions{
   display:flex;
@@ -654,8 +662,6 @@ main.admin-wrap{
   color:#fff !important;
 }
 
-/* Empty areas */
-
 .empty-state{
   width:100%;
   padding:25px 10px;
@@ -665,8 +671,6 @@ main.admin-wrap{
   border:1px dashed #303740;
   border-radius:10px;
 }
-
-/* Users */
 
 .user-role{
   display:inline-block;
@@ -700,8 +704,6 @@ main.admin-wrap{
   font-size:12px;
 }
 
-/* Admin forms */
-
 .admin-form{
   display:grid;
   gap:10px;
@@ -729,8 +731,6 @@ main.admin-wrap{
   font-size:13px;
   margin-top:5px;
 }
-
-/* Ad form */
 
 .ad-form{
   display:grid;
@@ -769,8 +769,6 @@ main.admin-wrap{
   color:#e9bd62;
 }
 
-/* Status badges */
-
 .status{
   display:inline-block;
   padding:5px 9px;
@@ -806,7 +804,7 @@ main.admin-wrap{
 }
 
 /* =====================================================
-   RESPONSIVE
+   RESPONSIVE — TABLET
 ===================================================== */
 
 @media(max-width:900px){
@@ -817,19 +815,27 @@ main.admin-wrap{
 
   main{
     max-width:100%;
-  }
-
-  .grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    padding:24px 20px;
   }
 
   header{
-    padding:0 12px;
-    gap:12px;
+    padding:0 16px;
+    gap:14px;
   }
 
   .search{
     max-width:none;
+  }
+
+  /* Keep videos controlled */
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+  }
+
+  .video-card img,
+  .thumb{
+    height:145px;
   }
 
   .hero h1{
@@ -849,90 +855,162 @@ main.admin-wrap{
   }
 }
 
+/* =====================================================
+   RESPONSIVE — MOBILE
+===================================================== */
+
 @media(max-width:560px){
 
   header{
-    height:60px;
-  }
-
-  nav{
-    gap:8px;
-  }
-
-  nav a{
-    display:none;
+    height:auto;
+    min-height:60px;
+    padding:10px 10px;
+    gap:9px;
+    flex-wrap:nowrap;
   }
 
   .logo{
-    font-size:20px;
+    font-size:19px;
+    flex:0 0 auto;
+  }
+
+  .search{
+    flex:1;
+    min-width:0;
+    margin:0;
   }
 
   .search input{
+    width:100%;
     min-width:0;
-    padding:10px;
+    padding:9px 9px;
+    font-size:13px;
   }
 
   .search button{
-    padding:0 12px;
+    padding:0 10px;
+  }
+
+  /*
+     Mobile nav stays visible.
+     Small text keeps Upload / Studio / Account
+     on the same line without making the cards huge.
+  */
+  nav{
+    display:flex;
+    gap:7px;
+    flex:0 0 auto;
+  }
+
+  nav a,
+  nav button{
+    display:inline-block;
+    font-size:11px;
+    line-height:1;
+  }
+
+  #adminLink{
+    display:none !important;
+  }
+
+  .layout{
+    min-height:calc(100vh - 60px);
   }
 
   main{
-    padding:18px 14px;
+    padding:18px 12px 35px;
   }
 
+  /* 2 videos per row on mobile */
   .grid{
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
   }
 
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .admin-stats{
-    grid-template-columns:1fr;
-    gap:12px;
-  }
-
-  main.admin-wrap{
-    padding:20px 14px 40px;
-  }
-
-  .admin-header h1{
-    font-size:26px;
-  }
-
-  .admin-card{
-    padding:17px;
-  }
-
-  .admin-grid{
-    grid-template-columns:1fr;
-    gap:15px;
-  }
-
-  .admin-row{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .admin-actions{
+  .video-card{
     width:100%;
+    border-radius:10px;
   }
 
-  .admin-actions button{
-    flex:1;
+  /* Small controlled thumbnail */
+  .video-card img,
+  .thumb{
+    width:100%;
+    height:105px;
+    object-fit:cover;
+  }
+
+  .video-card .body{
+    padding:8px;
+  }
+
+  .video-card h3{
+    font-size:13px;
+    line-height:1.3;
+    margin-bottom:5px;
+
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+
+  .section-head{
+    margin-top:22px;
+  }
+
+  .section-head h2{
+    font-size:20px;
   }
 
   .hero{
-    padding:25px;
+    min-height:210px;
+    padding:25px 20px;
+    border-radius:14px;
   }
 
   .hero h1{
     font-size:30px;
+    line-height:1.15;
+  }
+
+  .hero p{
+    font-size:14px;
+    line-height:1.5;
+  }
+
+  .btn{
+    padding:10px 14px;
+    font-size:13px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .stat{
+    padding:14px;
+  }
+
+  .stat b{
+    font-size:21px;
   }
 
   .watch{
     padding:12px;
+  }
+
+  .watch video{
+    border-radius:8px;
+  }
+
+  .comment-box{
+    flex-direction:column;
+  }
+
+  .comment-box button{
+    width:100%;
   }
 
   .studio-top{
@@ -942,4 +1020,132 @@ main.admin-wrap{
   .studio-top .btn{
     margin-top:15px;
   }
+
+  /* Admin mobile */
+  main.admin-wrap{
+    padding:20px 12px 40px;
+  }
+
+  .admin-header h1{
+    font-size:26px;
+  }
+
+  .admin-stats{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .admin-stat{
+    padding:15px;
+  }
+
+  .admin-stat .icon{
+    font-size:21px;
+  }
+
+  .admin-stat strong,
+  .admin-stat b{
+    font-size:21px;
+  }
+
+  .admin-card{
+    padding:16px;
+  }
+
+  .admin-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .admin-row{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .admin-actions{
+    width:100%;
+  }
+
+  .admin-actions button{
+    flex:1;
+  }
 }
+
+/* =====================================================
+   VERY SMALL PHONES
+===================================================== */
+
+@media(max-width:420px){
+
+  header{
+    gap:6px;
+    padding:9px 7px;
+  }
+
+  .logo{
+    font-size:17px;
+  }
+
+  nav{
+    gap:5px;
+  }
+
+  nav a,
+  nav button{
+    font-size:10px;
+  }
+
+  .search input{
+    font-size:12px;
+    padding:8px;
+  }
+
+  .search button{
+    padding:0 8px;
+  }
+
+  main{
+    padding-left:9px;
+    padding-right:9px;
+  }
+
+  .grid{
+    gap:8px;
+  }
+
+  .video-card img,
+  .thumb{
+    height:95px;
+  }
+
+  .video-card .body{
+    padding:7px;
+  }
+
+  .video-card h3{
+    font-size:12px;
+  }
+
+  .hero{
+    padding:20px 16px;
+  }
+
+  .hero h1{
+    font-size:27px;
+  }
+
+  .admin-stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .admin-stat{
+    padding:13px;
+  }
+
+  .admin-stat strong,
+  .admin-stat b{
+    font-size:19px;
+  }
+}
+```
