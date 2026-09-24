@@ -1267,3 +1267,62 @@ aside a:hover,
 aside a.active{
   color:#000 !important;
 }
+/* =========================
+   CREATOR EARNINGS BOX
+========================= */
+
+.earn{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:20px;
+  margin-top:15px;
+  background:#f1f3f5;
+  border:1px solid #cfd4d9;
+  border-radius:12px;
+  color:#111;
+}
+
+.earn b{
+  font-size:32px;
+  color:#111;
+}
+
+.earn .btn,
+.earn button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#d9dde1;
+  color:#111 !important;
+  border:1px solid #b8bec5;
+  border-radius:8px;
+  padding:10px 15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.earn .btn:hover,
+.earn button:hover{
+  background:#eef0f2;
+}
+
+/* Mobile */
+@media(max-width:560px){
+  .earn{
+    flex-direction:column;
+    align-items:stretch;
+    padding:16px;
+  }
+
+  .earn b{
+    font-size:28px;
+  }
+
+  .earn .btn,
+  .earn button{
+    width:100%;
+    text-align:center;
+  }
+}
