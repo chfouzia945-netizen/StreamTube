@@ -1083,3 +1083,95 @@ td{
     aspect-ratio:auto !important;
   }
 }
+
+/* =========================================================
+   FINAL VIDEO CARD SIZE FIX
+   ========================================================= */
+
+/* Desktop */
+@media(min-width:901px){
+  .grid{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:16px !important;
+  }
+
+  .video-card{
+    width:100% !important;
+    max-width:100% !important;
+  }
+
+  .video-thumb{
+    width:100% !important;
+    height:150px !important;
+    object-fit:cover !important;
+  }
+}
+
+/* Tablet */
+@media(min-width:561px) and (max-width:900px){
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:14px !important;
+  }
+
+  .video-thumb{
+    width:100% !important;
+    height:150px !important;
+    object-fit:cover !important;
+  }
+}
+
+/* Mobile */
+@media(max-width:560px){
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+
+  .video-card{
+    width:100% !important;
+  }
+
+  .video-thumb{
+    width:100% !important;
+    height:105px !important;
+    object-fit:cover !important;
+  }
+
+  .video-info{
+    padding:8px !important;
+  }
+
+  .video-title{
+    font-size:13px !important;
+    line-height:1.3 !important;
+  }
+
+  .video-meta{
+    font-size:11px !important;
+  }
+}
+
+/* Very small mobile */
+@media(max-width:420px){
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:8px !important;
+  }
+
+  .video-thumb{
+    height:95px !important;
+  }
+
+  .video-info{
+    padding:7px !important;
+  }
+
+  .video-title{
+    font-size:12px !important;
+  }
+
+  .video-meta{
+    font-size:10px !important;
+  }
+}
