@@ -1441,3 +1441,107 @@ aside a.active{
 .studio .row button:hover{
   background:#fff;
 }
+/* =========================
+   STUDIO STATS BOXES
+========================= */
+
+.studio .stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+  margin:25px 0;
+}
+
+.studio .stats .stat{
+  background:#f1f3f5 !important;
+  border:1px solid #c9ced3 !important;
+  border-radius:12px !important;
+  padding:20px !important;
+  color:#111 !important;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.studio .stats .stat small{
+  display:block;
+  color:#555 !important;
+  margin-bottom:8px;
+}
+
+.studio .stats .stat b{
+  color:#111 !important;
+  font-size:25px;
+}
+
+/* Mobile */
+@media(max-width:560px){
+  .studio .stats{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .studio .stats .stat{
+    padding:15px !important;
+  }
+
+  .studio .stats .stat b{
+    font-size:21px;
+  }
+}
+
+/* =========================
+   STUDIO DASHBOARD HEADER BOX
+========================= */
+
+.studio-top{
+  background:#f1f3f5;
+  border:1px solid #c9ced3;
+  border-radius:14px;
+  padding:22px 24px;
+  margin-bottom:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.studio-top h1{
+  color:#111 !important;
+  margin:0 0 8px;
+}
+
+.studio-top p{
+  color:#555 !important;
+  margin:0;
+}
+
+.studio-top .btn{
+  background:#d9dde1;
+  color:#111 !important;
+  border:1px solid #b8bec5;
+}
+
+.studio-top .btn:hover{
+  background:#fff;
+}
+/* STUDIO UPLOAD VIDEO BUTTON */
+
+.studio-top .btn{
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  visibility:visible !important;
+  opacity:1 !important;
+
+  background:#d9dde1 !important;
+  color:#111 !important;
+
+  border:1px solid #b8bec5 !important;
+  border-radius:8px;
+  padding:11px 18px;
+  font-size:14px;
+  font-weight:700;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+.studio-top .btn:hover{
+  background:#eef0f2 !important;
+  color:#000 !important;
+}
